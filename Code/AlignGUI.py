@@ -7,6 +7,9 @@ import TaxFileManager
 from datetime import date
 import tkinter
 
+base_path = 'Desktop/ProteoSync'
+# base_path = '.'
+
 
 class CheckboxTree:
     """Tree-based structure containing and connecting the checkbuttons on the taxonomy GUI."""
@@ -44,7 +47,7 @@ class AlignGUI:
 
         window = tkinter.Tk()
         window.title('ProteoSync')
-        window.geometry('730x480')
+        window.geometry('730x520')
         window['bg'] = '#363535'
         window.resizable(width=False, height=False)
         self.window = window
@@ -52,46 +55,54 @@ class AlignGUI:
         self.window2 = None
         self.file_tree = None
 
-        seq = tkinter.Label(text='Protein sequence:', bg='#363535', fg='white')
+        seq = tkinter.Label(text='Protein sequences:', bg='#363535', fg='white')
         seq.place(x=10, y=5)
 
-        seq_entry = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
+        seq_entry = tkinter.Text(fg='black', bg='white', width=49, height=11, highlightbackground='#363535')
         seq_entry.place(x=10, y=30)
         self.seq_entry = seq_entry
 
-        uniprot_label = tkinter.Label(text='UniProt ID (Optional):', bg='#363535', fg='white')
-        uniprot_label.place(x=10, y=175)
+        uniprot_label = tkinter.Label(text='OR UniProt IDs:', bg='#363535', fg='white')
+        uniprot_label.place(x=370, y=5)
 
-        uniprot_entry = tkinter.Entry(fg='black', bg='white', width=10, highlightbackground='#363535')
-        uniprot_entry.place(x=160, y=175)
+        uniprot_entry = tkinter.Text(fg='black', bg='white', width=49, height=11, highlightbackground='#363535')
+        uniprot_entry.place(x=370, y=30)
         self.uniprot_entry = uniprot_entry
 
         pdb = tkinter.IntVar()
         self.pdb = pdb
         pdb_check = tkinter.Checkbutton(text='Search PDB database?', bg='#363535', fg='white', variable=self.pdb)
-        pdb_check.place(x=280, y=177)
+        pdb_check.place(x=10, y=180)
         pdb_check.select()
 
         thresh_label = tkinter.Label(text='% Identity Threshold:', bg='#363535', fg='white')
         thresh_label.place(x=10, y=217)
 
         threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
-        threshold_slider.place(x=160, y=200)
+        threshold_slider.place(x=210, y=200)
         threshold_slider.set(50)
         self.threshold_slider = threshold_slider
 
+        len_thresh_label = tkinter.Label(text='% Length Difference Threshold:', bg='#363535', fg='white')
+        len_thresh_label.place(x=10, y=257)
+
+        len_threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
+        len_threshold_slider.place(x=210, y=240)
+        len_threshold_slider.set(50)
+        self.len_threshold_slider = len_threshold_slider
+
         output_name_label = tkinter.Label(text='Output file name (optional):', bg='#363535', fg='white')
-        output_name_label.place(x=10, y=250)
+        output_name_label.place(x=10, y=290)
 
         output_name_entry = tkinter.Entry(fg='black', bg='white', width=33, highlightbackground='#363535')
-        output_name_entry.place(x=185, y=250)
+        output_name_entry.place(x=185, y=290)
         self.output_name_entry = output_name_entry
 
         start_button = tkinter.Button(text='Start!', width=8, height=2, bg='#616161', fg='black',
                                       highlightbackground='#363535', command=self.run_program)
-        start_button.place(x=10, y=275)
+        start_button.place(x=10, y=315)
 
-        date_file = open('Desktop/ProteoSync/last_update.txt', 'r')
+        date_file = open(base_path+'/databases/pdb_last_update.txt', 'r')
         last_date_str = date_file.read()
         last_date = date(int(last_date_str[0:4]), int(last_date_str[5:7]), int(last_date_str[8:10]))
         today = date.today()
@@ -104,18 +115,18 @@ class AlignGUI:
         update_label_2 = tkinter.Label(text='local PDB database has been updated.', bg='#363535', fg='white')
         update_label_2.place(x=470, y=210)
 
-        button = tkinter.Button(text='Update PDB database', width=15, height=2, bg='#616161', fg='black',
+        pdb_button = tkinter.Button(text='Update PDB database', width=15, height=2, bg='#616161', fg='black',
                                 highlightbackground='#363535', command=self.update_database)
-        button.place(x=510, y=240)
+        pdb_button.place(x=510, y=240)
 
         output_log_label = tkinter.Label(text='Output Log:', bg='#363535', fg='white')
-        output_log_label.place(x=10, y=315)
+        output_log_label.place(x=10, y=355)
 
         output_field = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
-        output_field.place(x=10, y=335)
+        output_field.place(x=10, y=375)
         self.output_field = output_field
 
-        self.file_tree = TaxFileManager.make_tax_tree('Desktop/ProteoSync/databases/species')
+        self.file_tree = TaxFileManager.make_tax_tree(base_path+'/databases/species')
         height = self.file_tree.get_size()
 
         window2 = tkinter.Toplevel(self.window)
@@ -163,18 +174,55 @@ class AlignGUI:
         window.mainloop()
 
     def run_program(self) -> None:
-        """Collects user input from window fields and passes it to the program."""
+        """Collects user input from window fields and passes it to the controller."""
         self.line_count = 1.0
         self.output_field.delete(1.0, tkinter.END)
 
         seq_str = self.get_seq()
+        # print(seq_str)
         uni_str = self.get_uniprot()
+        # print(uni_str == '\n')
         threshold = self.get_threshold()
+        len_threshold = self.get_len_threshold()
 
+        uni_lst = []
+        if uni_str != '\n':
+            uni_lst = uni_str.split()
+            seq_lst = self.aln_cont.get_fastas_from_uniprots(uni_lst)
+        else:
+            seq_lst = seq_str.split()
+
+        filename = self.get_filename()
+
+        for i in range(len(seq_lst)):
+            # logic to decide what to name this run
+            if filename != '':
+                run_name = filename
+                if i > 0:
+                    run_name += '_' + str(i + 1)
+            elif uni_str != '\n':
+                run_name = uni_lst[i]
+            else:
+                run_name = ''
+
+            if i > 0:
+                self.printout('\n')
+
+            if run_name == '':
+                self.printout("Starting run " + str(i+1) + '\n')
+            else:
+                self.printout("Starting run " + run_name + '\n')
+
+            if uni_str != '\n':
+                self._run_program(seq_lst[i], uni_lst[i], threshold, len_threshold, run_name)
+            else:
+                self._run_program(seq_lst[i], '', threshold, len_threshold, run_name)
+
+    def _run_program(self, seq_str: str, uni_str: str, threshold: int, len_threshold: int, run_name: str) -> None:
         self.aln_cont.clear()
 
         self.printout("Running BLAST searches...\n")
-        error = self.aln_cont.run_blast(seq_str, self.file_tree, threshold)
+        error = self.aln_cont.run_blast(seq_str, self.file_tree, threshold, len_threshold)
         if error == 1:
             self.printout("1 or fewer sufficiently similar sequences were found, no alignment could be made.\n")
             return
@@ -203,7 +251,7 @@ class AlignGUI:
                               "details.\n")
                 self.printout("Continuing...\n")
 
-        output_name = self.aln_cont.assemble_output(self.get_filename())
+        output_name = self.aln_cont.assemble_output(run_name)
 
         if output_name != '':
             self.printout('Results recorded in ' + output_name + '\n')
@@ -258,9 +306,13 @@ class AlignGUI:
         """Return the current setting of the threshold slider."""
         return int(self.threshold_slider.get())
 
+    def get_len_threshold(self) -> int:
+        """Return the current setting of the length threshold slider."""
+        return int(self.len_threshold_slider.get())
+
     def get_uniprot(self) -> str:
         """Return the contents of the Uniprot code entry field."""
-        return self.uniprot_entry.get()
+        return self.uniprot_entry.get(1.0, tkinter.END)
 
     def get_filename(self) -> str:
         return self.output_name_entry.get()

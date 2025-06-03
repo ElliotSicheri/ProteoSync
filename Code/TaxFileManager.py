@@ -49,16 +49,19 @@ def tax_tree_print(node: TaxTreeNode, level: int = 0):
         tax_tree_print(child, level + 1)
 
 
-def get_path_list(node: TaxTreeNode) -> list[str]:
+def get_path_list(node: TaxTreeNode) -> (list[str], list[str]):
     """Returns a list of file paths for leaf nodes in the tax tree that have a path from the root node such that each
-    node in the path has an include value of 1."""
+    node in the path has an include value of 1, and a list of nodes along this path for which the include value is 0."""
     if node.include.get() == 1:
         if node.is_leaf:
-            return [node.path]
+            return [node.path], []
         else:
             path_list = []
+            exclude_list = []
             for child in node.children:
-                path_list = path_list + get_path_list(child)
-            return path_list
+                p_lst, e_lst = get_path_list(child)
+                path_list = path_list + p_lst
+                exclude_list = exclude_list + e_lst
+            return path_list, exclude_list
     else:
-        return []
+        return [], [node.name]
