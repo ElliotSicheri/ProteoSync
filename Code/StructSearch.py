@@ -58,10 +58,13 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
             i = line.find('%')
             score_str = line[i - 3:i].replace('(', '')
             score = int(score_str)
-            if score >= 25:
+            if score >= 45:
                 pdb_codes.append([code, chain])
-        elif 'No hits found' in line:
-            return []
+
+    if len(pdb_codes) == 0:
+        if rec_count == 0:
+            print("No sufficiently similar sequences were found in the PDB.")
+        return []
 
     # Generates strings representing the secondary structure of each hit
     structure_strs = []
@@ -85,7 +88,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
 
         # Locates unmodelled areas in the PDB file and extracts the protein sequence. If there are any sections added to
         # the front of the sequence with position labelled as <= 0, count the number of residues in said section, so it
-        # can be accounted for when adding unmodelled sections to the structure string.
+        # can be accounted for when removing unmodelled sections from the structure string.
         with open(filename, 'r') as pdb_file:
             lines = pdb_file.readlines()
             pdb_file.close()
@@ -95,7 +98,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
         remark_num = 0
         seq_str = ''  # Protein sequence
         chain_start = 0  # The residue number the chain starts at
-        lowest_index = 1  # lowest residue index, including those before chain_start
+        lowest_index = 0  # lowest residue index, including those before chain_start
         lowest_diff = 0
 
         for line in lines:
@@ -104,7 +107,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                 row_tally = 5
                 remark_num = int(line[6:10])
             elif row_tally > 0:
-                # Counts down 5 rows from the beginning of section
+                # Counts down 5 rows from the beginning of unmodelled residue section
                 row_tally -= 1
             elif row_tally == 0:
                 if int(line[6:10]) == remark_num and line[19] == chain:
@@ -114,18 +117,18 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                     else:
                         unmodelled_sections.append([res_num, res_num])
                 elif int(line[6:10]) != remark_num:
-                    row_tally = -1
+                    row_tally = -1  # Reached end of unmodelled residue section
             elif (line[0:6] == 'DBREF ' or line[0:6] == 'DBREF1') and line[12] == chain:
                 chain_start = int(line[14:18])
+                lowest_index = chain_start
             elif line[0:6] == 'SEQADV':
-                # Finds residues marked as position <= 0
+                # Finds residues marked as positions < chain_start
                 index_str = line[17:22].strip().replace('-', '')
                 if index_str.isnumeric():
                     index = int(line[17:22])
-                    if index - chain_start < 0:
-                        if index - chain_start < lowest_diff:
-                            lowest_diff = index - chain_start
-                            lowest_index = index
+                    if line[16] == chain and index - chain_start < lowest_diff:
+                        lowest_diff = index - chain_start
+                        lowest_index = index
             elif line[0:6] == 'SEQRES' in line:
                 # Pulls protein sequence
                 if line[11] == chain:
@@ -136,18 +139,24 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                         if res in res_dict.keys():
                             seq_str += res_dict[res]
                         else:
-                            seq_str += 'X'
+                            seq_str += 'X'  # Accounts for uncommon residue modifications
                         i += 4
 
-        unmodelled_residues = set()
-        for section in unmodelled_sections:
-            unmodelled_residues = unmodelled_residues.union(set(range(section[0], section[1] + 1)))
+        if lowest_index < chain_start:
+            start_offset = lowest_index
+        else:
+            start_offset = chain_start
 
-        unmodelled_seq = seq_str
-        #removes unmodelled sections from the sequence
-        for i in unmodelled_residues:
-            unmodelled_seq = unmodelled_seq[0:i-lowest_index] + 'X' + unmodelled_seq[1+i-lowest_index:]
-        unmodelled_seq = unmodelled_seq.replace('X', '')
+        # Remove unmodelled sections from the sequence
+        if len(unmodelled_sections) > 0:
+            unmodelled_seq = ''
+            unmodelled_seq += seq_str[0:unmodelled_sections[0][0]-start_offset]
+            for i in range(len(unmodelled_sections) - 1):
+                start_i, end_i = unmodelled_sections[i][1], unmodelled_sections[i+1][0]
+                unmodelled_seq += seq_str[1+start_i-start_offset:end_i-start_offset]
+            unmodelled_seq += seq_str[1+unmodelled_sections[-1][1]-start_offset:]
+        else:
+            unmodelled_seq = seq_str
 
         # Parses the PDB file to get a structure
         parser = PDBParser(QUIET=True)
@@ -165,16 +174,14 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
 
         # Converts the secondary structure to a string
         dssp_structure_str = ''
-        for x in range(0, len(dssp)):
-            a_key = list(dssp.keys())[x]
-            dssp_structure_str += dssp[a_key][2]
+        for key in list(dssp.keys()):
+            if key[0] == chain:
+                dssp_structure_str += dssp[key][2]
 
         # Converts the string from DSSP format
         structure_str = ''
-        s_i = 0
-        while s_i < len(dssp_structure_str):
-            structure_str += dssp_dict[dssp_structure_str[s_i]]
-            s_i += 1
+        for ch in dssp_structure_str:
+            structure_str += dssp_dict[ch]
 
         # Aligns query sequence with the sequence of the PDB hit, aligns structure string to query sequence
         with open(base_path+'/temp_files/s_aln.txt', 'w') as s_aln:
@@ -215,8 +222,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                 # For sections that are missing from the query sequence, skip that part of the structure string
                 st_i += 1
             elif hit_aln[i] == '-':
-                # For sections missing from the hit sequence, assume that the corresponding section of the query
-                # sequence is not structurally relevant.
+                # For sections missing from the hit sequence, list section as unmodelled.
                 final_struc_str += 'X'
             else:
                 # Otherwise, plot the secondary structure as normal

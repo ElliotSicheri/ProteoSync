@@ -66,7 +66,7 @@ class AlignController:
             2: Other error
         """
 
-        print("Running BLAST searches...\n")
+        print("Running BLAST searches...")
 
         seq_file = open(base_path+'/temp_files/seq.txt', 'w')
         seq_file.truncate(0)
@@ -105,7 +105,7 @@ class AlignController:
 
     def run_alignment(self) -> None:
         """Runs an alignment on the output file of run_blast. Stores the name of the alignment file in this object."""
-        print("Aligning species...\n")
+        print("Aligning species...")
         self.alignment_file = ClustalAlignment.get_alignment(base_path+'/temp_files/formatted_results.txt')
 
     def run_pdb_search(self) -> int:
@@ -117,7 +117,7 @@ class AlignController:
         0: Function executed successfully.
         1: An error occurred.
         """
-        print("Searching pdb database...\n")
+        print("Searching pdb database...")
 
         try:
             struc_list = StructSearch.structure_search(base_path+'/temp_files/seq.txt')
@@ -140,7 +140,7 @@ class AlignController:
         0: Function returned successfully
         1: An error occurred
         """
-        print("Analyzing AlphaFold model...\n")
+        print("Analyzing AlphaFold model...")
         try:
             self.alpha_struct = StructSearch.alpha_struc_search(base_path+'/temp_files/seq.txt', uniprot_id)
             self.uniprot = uniprot_id

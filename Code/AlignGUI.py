@@ -179,9 +179,7 @@ class AlignGUI:
         self.output_field.delete(1.0, tkinter.END)
 
         seq_str = self.get_seq()
-        # print(seq_str)
         uni_str = self.get_uniprot()
-        # print(uni_str == '\n')
         threshold = self.get_threshold()
         len_threshold = self.get_len_threshold()
 
@@ -210,8 +208,10 @@ class AlignGUI:
 
             if run_name == '':
                 self.printout("Starting run " + str(i+1) + '\n')
+                print("Starting run " + str(i+1))
             else:
                 self.printout("Starting run " + run_name + '\n')
+                print("Starting run " + run_name)
 
             if uni_str != '\n':
                 self._run_program(seq_lst[i], uni_lst[i], threshold, len_threshold, run_name)
