@@ -1,0 +1,50 @@
+CLUSTAL 2.1 multiple sequence alignment
+
+
+Query_sequence      MNQELLSVGSKRRRTGGSLRGNPSSSQVDEEQMNRVVEEEQQQQLRQQEEEHTARNGEVV
+Hit_sequence        MNQELLSVGSKRRRTGGSLRGNPSSSQVDEEQMNRVVEEEQQQQLRQQEEEHTARNGEVV
+                    ************************************************************
+
+Query_sequence      GVEPRPGGQNDSQQGQLEENNNRFISVDEDSSGNQEEQEEDEEHAGEQDEEDEEEEEMDQ
+Hit_sequence        GVEPRPGGQNDSQQGQLEENNNRFISVDEDSSGNQEEQEEDEEHAGEQDEEDEEEEEMDQ
+                    ************************************************************
+
+Query_sequence      ESDDFDQSDDSSREDEHTHTNSVTNSSSIVDLPVHQLSSPFYTKTTKMKRKLDHGSEVRS
+Hit_sequence        ESDDFDQSDDSSREDEHTHTNSVTNSSSIVDLPVHQLSSPFYTKTTKMKRKLDHGSEVRS
+                    ************************************************************
+
+Query_sequence      FSLGKKPCKVSEYTSTTGLVPCSATPTTFGDLRAANGQGQQRRRITSVQPPTGLQEWLKM
+Hit_sequence        FSLGKKPCKVSEYTSTTGLVPCSATPTTFGDLRAANGQGQQRRRITSVQPPTGLQEWLKM
+                    ************************************************************
+
+Query_sequence      FQSWSGPEKLLALDELIDSCEPTQVKHMMQVIEPQFQRDFISLLPKELALYVLSFLEPKD
+Hit_sequence        FQSWSGPEKLLALDELIDSCEPTQVKHMMQVIEPQFQRDFISLLPKELALYVLSFLEPKD
+                    ************************************************************
+
+Query_sequence      LLQAAQTCRYWRILAEDNLLWREKCKEEGIDEPLHIKRRKVIKPGFIHSPWKSAYIRQHR
+Hit_sequence        LLQAAQTCRYWRILAEDNLLWREKCKEEGIDEPLHIKRRKVIKPGFIHSPWKSAYIRQHR
+                    ************************************************************
+
+Query_sequence      IDTNWRRGELKSPKVLKGHDDHVITCLQFCGNRIVSGSDDNTLKVWSAVTGKCLRTLVGH
+Hit_sequence        IDTNWRRGELKSPKVLKGHDDHVITCLQFCGNRIVSGSDDNTLKVWSAVTGKCLRTLVGH
+                    ************************************************************
+
+Query_sequence      TGGVWSSQMRDNIIISGSTDRTLKVWNAETGECIHTLYGHTSTVRCMHLHEKRVVSGSRD
+Hit_sequence        TGGVWSSQMRDNIIISGSTDRTLKVWNAETGECIHTLYGHTSTVRCMHLHEKRVVSGSRD
+                    ************************************************************
+
+Query_sequence      ATLRVWDIETGQCLHVLMGHVAAVRCVQYDGRRVVSGAYDFMVKVWDPETETCLHTLQGH
+Hit_sequence        ATLRVWDIETGQCLHVLMGHVAAVRCVQYDGRRVVSGAYDFMVKVWDPETETCLHTLQGH
+                    ************************************************************
+
+Query_sequence      TNRVYSLQFDGIHVVSGSLDTSIRVWDVETGNCIHTLTGHQSLTSGMELKDNILVSGNAD
+Hit_sequence        TNRVYSLQFDGIHVVSGSLDTSIRVWDVETGNCIHTLTGHQSLTSGMELKDNILVSGNAD
+                    ************************************************************
+
+Query_sequence      STVKIWDIKTGQCLQTLQGPNKHQSAVTCLQFNKNFVITSSDDGTVKLWDLKTGEFIRNL
+Hit_sequence        STVKIWDIKTGQCLQTLQGPNKHQSAVTCLQFNKNFVITSSDDGTVKLWDLKTGEFIRNL
+                    ************************************************************
+
+Query_sequence      VTLESGGSGGVVWRIRASNTKLVCAVGSRNGTEETKLLVLDFDVDMK
+Hit_sequence        VTLESGGSGGVVWRIRASNTKLVCAVGSRNGTEETKLLVLDFDVDMK
+                    ***********************************************

@@ -1,4 +1,5 @@
-CLUSTAL 2.1 multiple sequence alignment
+% identity threshold: 50
+% length variability threshold: 50
 
 
 Stylophora_pistillata_[73]          --------------------------------------------------
@@ -63,6 +64,9 @@ Saccoglossus_kowalevskii_[76]       --------------------------------------------
 Dimorphilus_gyrociliatus_[67]       --------------------------------------------------
 Amphimedon_queenslandica_[66]       --------------------------------------------------
 Oikopleura_dioica_[62]              --------------------------------------------------
+STRUCTURE [2OVR]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX          
+STRUCTURE [2OVQ]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX          
+ALPHAFOLD STRUCTURE:                ------------------------AAAAAAAAAAAAAAAA          
                                                                                       
 
 Stylophora_pistillata_[73]          --------------------------------------------------
@@ -127,6 +131,9 @@ Saccoglossus_kowalevskii_[76]       --------------------------------------------
 Dimorphilus_gyrociliatus_[67]       --------------------------------------------------
 Amphimedon_queenslandica_[66]       --------------------------------------------------
 Oikopleura_dioica_[62]              --------------------------------------------------
+STRUCTURE [2OVR]:                   XXXX               XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+STRUCTURE [2OVQ]:                   XXXX               XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ALPHAFOLD STRUCTURE:                AAAA               AAAAAAAAAA---------------------
                                                                                       
 
 Stylophora_pistillata_[73]          --------------------------------------------------
@@ -191,6 +198,9 @@ Saccoglossus_kowalevskii_[76]       --------------------------------------------
 Dimorphilus_gyrociliatus_[67]       --------------------------------------------------
 Amphimedon_queenslandica_[66]       --------------------------------------------------
 Oikopleura_dioica_[62]              --------------------------------------------------
+STRUCTURE [2OVR]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX      XXX
+STRUCTURE [2OVQ]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX      XXX
+ALPHAFOLD STRUCTURE:                -----------------------------------------      ---
                                                                                       
 
 Stylophora_pistillata_[73]          --------------------------------------------------
@@ -255,6 +265,9 @@ Saccoglossus_kowalevskii_[76]       -------------------------------------RIPVPVP
 Dimorphilus_gyrociliatus_[67]       --------------------------------------------------
 Amphimedon_queenslandica_[66]       --------------------------------------------------
 Oikopleura_dioica_[62]              --------------------------------------------------
+STRUCTURE [2OVR]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXX
+STRUCTURE [2OVQ]:                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXX
+ALPHAFOLD STRUCTURE:                ----------------------------- --------------------
                                                                                       
 
 Stylophora_pistillata_[73]          --------------------------------------------------
@@ -319,6 +332,9 @@ Saccoglossus_kowalevskii_[76]       KRKSDLVTDSKIGSPGKKLCRTETLNNSSLLT----VYSHHHNY
 Dimorphilus_gyrociliatus_[67]       --------------------------------------------------
 Amphimedon_queenslandica_[66]       --------------------------------------------------
 Oikopleura_dioica_[62]              --------------------------------------------------
+STRUCTURE [2OVR]:                   XXXXXXXXXXXXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXX
+STRUCTURE [2OVQ]:                   XXXXXXXXXXXXXXXXXXXXXXXXXX  XXXXXXXXXXXXXXXXXXXXXX
+ALPHAFOLD STRUCTURE:                --------------------------  ----------------------
                                                                                       
 
 Stylophora_pistillata_[73]          --------------------------HPPAGLEEWLQTFLQWTAEERKYA 24
@@ -383,6 +399,9 @@ Saccoglossus_kowalevskii_[76]       ECQVPR----------RRLSSRVNP--PPPDLNEWLKTFQSWSA
 Dimorphilus_gyrociliatus_[67]       -------------------------------IEKWLNAFRSFSVSEQSDA 19
 Amphimedon_queenslandica_[66]       ------------------------------AIDDWLSTFSGWPGEHRNQA 20
 Oikopleura_dioica_[62]              -------------------------------IDSWLNAYQNFTEEDQRIA 19
+STRUCTURE [2OVR]:                   XXXX              XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+STRUCTURE [2OVQ]:                   XXXX              XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ALPHAFOLD STRUCTURE:                ----              -------------AAAAAAAAAA--AAAAAAA
                                                                    :  *:  :  :   .:  *
 
 Stylophora_pistillata_[73]          LDEIIENCEPTVVRHIMGTIEPRFQRDFISLLPRELALYVLSFLEPSDLL 74
@@ -447,6 +466,9 @@ Saccoglossus_kowalevskii_[76]       LDELINRCDPSQVRHVMSIIEPQFQRDFISLLPRELALYVLSFL
 Dimorphilus_gyrociliatus_[67]       LEQLVQNCAPSQAKSLMASLESQFQRDFISLLPKELALYVLSFLSARDLV 69
 Amphimedon_queenslandica_[66]       LQKLIKICDSTQLKNLMEKIQPQFQRDFISLLPRELSLHVLSYMSPRDLL 70
 Oikopleura_dioica_[62]              LERLIDNSTHKNIRFMRDVIEPRFQRDFISLLPPELALHVLSKLEPKDLV 69
+STRUCTURE [2OVR]:                   XXXXXXXXXX--AAAAAAAA-------------AAAAAAAA----AAAAA
+STRUCTURE [2OVQ]:                   XXXXXXXXXX--AAAAAAAA-------AAAA--AAAAAAAA----AAAAA
+ALPHAFOLD STRUCTURE:                AAAAAA---AAAAAAAAAAAAAAA---------AAAAAAAAA---AAAAA
                                     :: ::  .     : :   : . *:****::** *            .*:
 
 Stylophora_pistillata_[73]          RAAQTCKCWQTLCDDNLLWKQKCKQANIEEEPVTPVKCSRRRSNNSQQ-- 122
@@ -511,6 +533,9 @@ Saccoglossus_kowalevskii_[76]       RAAQTCQYWRILCEDNLLWREKCKEAGIEEVNGKQT--RRRSNS
 Dimorphilus_gyrociliatus_[67]       KAAQTCRYWLVLVDDNLLWKEKCEEDGVLIRQTPS--------------- 104
 Amphimedon_queenslandica_[66]       IAAQTCRMWRTLCDDILLWKEKCQQCNISEAVYGNVGKKRTCSLVYN--- 117
 Oikopleura_dioica_[62]              SATQTCRTWRQLADDNTIWRQKCLEENVKECSTPILKQYKSWAKTRTPEI 119
+STRUCTURE [2OVR]:                   AA----AAAAAAA---AAAAAAA-------------  XX-------   
+STRUCTURE [2OVQ]:                   AA----AAAAAAA--AAAAAAAAAA-----------  ---------   
+ALPHAFOLD STRUCTURE:                AA----AAAAAA---AAAAAAAAAA-----------  ---------   
                                      .:*.*  *  *  *  :*: :*    :                      
 
 Stylophora_pistillata_[73]          -VNQNTKAANSPFKKLYMTKQRVYWNWRMGPLRPS---KVLKGHDDHVIT 168
@@ -575,6 +600,9 @@ Saccoglossus_kowalevskii_[76]       ---------RSPWKSAFMRQHQIEYNWRFGDIKTA---KVLKGH
 Dimorphilus_gyrociliatus_[67]       ------------FKKLYLEQLNIEHNWKTMPTDDP---LVLKGHDDHVIT 139
 Amphimedon_queenslandica_[66]       -----------PWKDMYLTKHWIEYNWRHASVQEHPRLKILKGHDDHVVT 156
 Oikopleura_dioica_[62]              VG----ENIHSPWKKTIMRKKRIEKVWIEGDVTPL----ELVGHDDHVVT 161
+STRUCTURE [2OVR]:                            --AAAAAAAAAAAAAAAAAA------   BBBB------BB
+STRUCTURE [2OVQ]:                            --AAAAAAAAAAAAAAAAAA------   BBBB------BB
+ALPHAFOLD STRUCTURE:                         --AAAAAAAAAAAAAAAAAA------   BBBB------BB
                                                 :*   : :  :   *             : **:***:*
 
 Stylophora_pistillata_[73]          CLQFCGSRIVSGSDDGTLKVWSAVSGKCLRTLVGHTGGVWSSQLSGNIIV 218
@@ -639,6 +667,9 @@ Saccoglossus_kowalevskii_[76]       CLQFCGQRIVSGSDDNTLKVWSATTGKCLRTLVGHTGGVWSSQM
 Dimorphilus_gyrociliatus_[67]       CLEYSGDRIVSGSDDNTLKVWNSKTGMCVLTLQGHTGGVWCSQIMDNKLI 189
 Amphimedon_queenslandica_[66]       CLQFSGNRIVSGSDDTTLKIWSAVNGRCLKTLQGHTGGVWCSEFNGHVVV 206
 Oikopleura_dioica_[62]              CLQFDGQRIVSGSDDSTLKVWNAKTGHCQSTLIGHTGGVWCLEMKDDWIV 211
+STRUCTURE [2OVR]:                   BBBBB--BBBBBB----BBBBB-----BBBB-------BBBBBBB--BBB
+STRUCTURE [2OVQ]:                   BBBBB--BBBBBB----BBBBB-----BBBBB------BBBBBBB--BBB
+ALPHAFOLD STRUCTURE:                BBBBB--BBBBBB----BBBBB-----BBBBB------BBBBBBB--BBB
                                     **:: *  ::***** :**:*.  .* *  ** **:****. ::    ::
 
 Stylophora_pistillata_[73]          SGSTDRTLKVWNADTGYCMHTLYGHSSTVRCMDMHDNTVVSGSRDGTLRV 268
@@ -703,6 +734,9 @@ Saccoglossus_kowalevskii_[76]       SGSTDRTLKVWNADTGQCIHTLYGHTSTVRCMCLHGNKVVSGSR
 Dimorphilus_gyrociliatus_[67]       SGSTDRTLRVWDIETGECLHTLYGHSSTVRCLHWHDELVVSGSRDATLRI 239
 Amphimedon_queenslandica_[66]       SGSTDRSLRVWNADTGECKYILQGHTSTVRCVAMHNTTVVSGSRDATLRV 256
 Oikopleura_dioica_[62]              SGSTDRTLRVWSAETGKCIETLYGHCSTVRCMALSGNQVVSGSRDNTLRV 261
+STRUCTURE [2OVR]:                   BBB----BBBBB----BBBBBB------BBBBBBB--BBBBBB---BBBB
+STRUCTURE [2OVQ]:                   BBB----BBBBB-----BBBBB------BBBBBBB--BBBBBB---BBBB
+ALPHAFOLD STRUCTURE:                BBB----BBBBB-----BBBBB------BBBBBBB--BBBBBB----BBB
                                     ****** *::*. .:* *   * ** *****:      ******* ***:
 
 Stylophora_pistillata_[73]          WDTSSGNCLHVLVGHLAAVRCVKYDGRRVVSGAYDFFVKVWDPETE--QC 316
@@ -767,6 +801,9 @@ Saccoglossus_kowalevskii_[76]       WDIDTGQCLHVLMGHVAAVRCVQYDGRRVVSGAYDYMVKVWNPE
 Dimorphilus_gyrociliatus_[67]       WHVLRGECVKTLIGHVAAVRCVQYDGRRVVSGAYDFTVRIWDPETE--AC 287
 Amphimedon_queenslandica_[66]       WDVDSGQCTTVLQGHLAAVRCVQFDGQYVVSGAYDFLVKIWDPTEG--TC 304
 Oikopleura_dioica_[62]              WDLTTLKCTAVLVGHFAAVRCVCFDGKKIVSGSYDNTVKIWDPNQAGNKL 311
+STRUCTURE [2OVR]:                   BB-----BBBBBB-----BBBBBB----BBBBB----BBBBB----  BB
+STRUCTURE [2OVQ]:                   BB-----BBBBBB-----BBBBBB----BBBBB----BBBBB----  BB
+ALPHAFOLD STRUCTURE:                BB-----BBBBB------BBBBBB----BBBBB----BBBBB----  BB
                                     *      *  .* **.****** ::*. :***:**  *::* .       
 
 Stylophora_pistillata_[73]          IHTLQGHTNRVYSLQFDGVYIVSGSLDTSIRVWHVETGQCLHTLIGHQSL 366
@@ -831,6 +868,9 @@ Saccoglossus_kowalevskii_[76]       LHTLQGHTNRVYSLQFDGVHVVSGSLDTSIRVWDVESGECKHTL
 Dimorphilus_gyrociliatus_[67]       LHELQGHTNRVYSLQFDGTYIVSGSLDTSIRVWHAESGRCLHQLTGHQSL 337
 Amphimedon_queenslandica_[66]       LHTLQGHTNRVYSLLFDGTHVVSGSLDTSIRVWDVKTGQSIHTLVGHQSL 354
 Oikopleura_dioica_[62]              LHTLQGHTMRVYSLQFDGKHVVSGSLDTNIMVWDADTGTLLHTLVGHQSL 361
+STRUCTURE [2OVR]:                   BBBB------BBBBBB---BBBBBB----BBBBB-----BBBBB------
+STRUCTURE [2OVQ]:                   BBBB------BBBBBB---BBBBBB----BBBBB-----BBBBB------
+ALPHAFOLD STRUCTURE:                BBBB------BBBBBB---BBBBBB----BBBBB-----BBBBB------
                                     :: * **. ***** *** ::*******.* **.. :*   * * *****
 
 Stylophora_pistillata_[73]          TSGMELKNNTLVSGNADSTVKIWDIASGQCLQTLAGPSKHQSAVTCLQFN 416
@@ -895,6 +935,9 @@ Saccoglossus_kowalevskii_[76]       TSGMELKDNILVSGNADSTVKIWDIQSGQCLQTLQGPNKHQSAV
 Dimorphilus_gyrociliatus_[67]       TSKMQLRNKLLVSGNADSTVKIWDVARGECLHTLAGPHKHVSAVTCLQLT 387
 Amphimedon_queenslandica_[66]       TSAMELKGNILVSGNADSTVKVWDVARGYCLHTLHGPHKHESAVTSLQFT 404
 Oikopleura_dioica_[62]              TSGMELRGKTLVSGNADSFVKIWDIETGLLVRTLDDKNKHSSAVTSLQYC 411
+STRUCTURE [2OVR]:                   BBBBBBB--BBBBBB----BBBBB-----BBBBB---------BBBBBB-
+STRUCTURE [2OVQ]:                   BBBBBBB--BBBBBB----BBBBB-----BBBBB---------BBBBBB-
+ALPHAFOLD STRUCTURE:                BBBBBBB--BBBBBB----BBBBB-----BBBBB---------BBBBBB-
                                     ** ::*  . *:****** :*:*::  *  ::*: .   * ****.**  
 
 Stylophora_pistillata_[73]          SRFVITSSDDGTVKIWDLHTGEYIRDLVKLDSGGSGGVVWRVKCDEKKLV 466
@@ -959,6 +1002,9 @@ Saccoglossus_kowalevskii_[76]       KKFVITSSDDGTVKIWDLNTGEFIRNLVTLESGGSGGVVWRIRA
 Dimorphilus_gyrociliatus_[67]       RHFVITSSDDGTVKLWNLETGEWLRDLINLSSGGSGGVVWRVQSTDSTLV 437
 Amphimedon_queenslandica_[66]       ENFVVTSSDDGSVKLWDMKTGEFIRNLVCLDGGGNGGVVWRVKCNEHKLV 454
 Oikopleura_dioica_[62]              GKFIVTSSDDGTVKLWNAETGEWIRDLVSLDTRQTGGVVWRIKASETKLV 461
+STRUCTURE [2OVR]:                   --BBBBBB---BBBBBB-----BBBBBBB--------BBBBBBB---BBB
+STRUCTURE [2OVQ]:                   --BBBBBB---BBBBBB-----BBBBBBB--------BBBBBBB---BBB
+ALPHAFOLD STRUCTURE:                --BBBBBB---BBBBBB-----BBBBBBB-------BBBBBBBBB--BBB
                                       : :*.****:**:*: .:*:::*::: *    .******: .   .*:
 
 Stylophora_pistillata_[73]          CAVGSRNGTEETKLLVLDFDV--- 487
@@ -1023,4 +1069,97 @@ Saccoglossus_kowalevskii_[76]       CAVGSRNGTEETKLLVLDFDVDEK 552
 Dimorphilus_gyrociliatus_[67]       CAVGSRNGTEETKLLVLDF----- 456
 Amphimedon_queenslandica_[66]       CAVGSRNGIEDTKLMVLDFE---- 474
 Oikopleura_dioica_[62]              CAVGSRNGTELTKLLVLNFD---- 481
+STRUCTURE [2OVR]:                   BBBB--------BBBBBB-----X
+STRUCTURE [2OVQ]:                   BBBB--------BBBBBB-----X
+ALPHAFOLD STRUCTURE:                BBBBB-------BBBBBB------
                                     ******** * *** **:*     
+
+Accession codes:
+	- Sycon ciliatum: CAH0798093.1
+	- Amphimedon queenslandica: XP_003382807.2
+	- Saccoglossus kowalevskii: tr|A0A0U2UTY2|A0A0U2UTY2_SACKO
+	- Mercenaria mercenaria: XP_045203568.1
+	- Mytilus edulis: CAG2213670.1
+	- Octopus bimaculoides: KOF69153.1
+	- Octopus sinensis: XP_029645358.1
+	- Acanthaster planci: XP_022084461.1
+	- Patiria miniata: XP_038055611.1
+	- Lytechinus variegatus: XP_041453435.1
+	- Dimorphilus gyrociliatus: CAD5120477.1
+	- Lamellibrachia satsuma: KAI0219639.1
+	- Stylophora pistillata: PFX23962.1
+	- Nematostella vectensis: XP_032239615.2
+	- Branchiostoma floridae: XP_035681252.1
+	- Branchiostoma lanceolatum: tr|A0A8K0A5P5|A0A8K0A5P5_BRALA
+	- Oikopleura dioica: CBY31176.1
+	- Xenopus laevis: XP_018098751.1
+	- Geotrypetes seraphini: tr|A0A6P8QBB4|A0A6P8QBB4_GEOSA
+	- Xenopus tropicalis: KAE8630174.1
+	- Eptatretus burgeri: tr|A0A8C4QTU6|A0A8C4QTU6_EPTBU
+	- Latimeria chalumnae: tr|M3XHE1|M3XHE1_LATCH
+	- Callorhinchus milii: XP_007902202.2
+	- Scyliorhinus torazame: tr|A0A401NIG5|A0A401NIG5_SCYTO
+	- Petromyzon marinus: XP_032811423.1
+	- Anguilla anguilla: XP_035282700.1
+	- Takifugu rubripes: XP_011611264.2
+	- Danio rerio: XP_009289574.3
+	- Cynoglossus semilaevis: tr|A0A3P8UT17|A0A3P8UT17_CYNSE
+	- Salmo salar: XP_045578685.1
+	- Oncorhynchus nerka: XP_029542965.1
+	- Protopterus annectens: XP_043917976.1
+	- Pogona vitticeps: XP_020636987.1
+	- Crotalus tigris: XP_039221509.1
+	- Trachemys scripta elegans: XP_034627418.1
+	- Anolis carolinensis: tr|A0A803SUJ6|A0A803SUJ6_ANOCA
+	- Gallus gallus: XP_046771889.1
+	- Taeniopygia guttata: XP_030127377.1
+	- Equus caballus: XP_001501354.1
+	- Bos taurus: XP_024833182.1
+	- Myotis myotis: XP_036168888.1
+	- Rattus norvegicus: XP_038959667.1
+	- Neosciurus carolinensis: XP_047422505.1
+	- Homo sapiens: CAD90236.1
+	- Macaca mulatta: AFE79058.1
+	- Ursus arctos: XP_026355261.1
+	- Orcinus orca: XP_004263680.1
+	- Monodelphis domestica: XP_007496297.1
+	- Canis lupus: XP_035554763.1
+	- Mus musculus: EDL15400.1
+	- Sus scrofa: XP_020957159.1
+	- Felis catus: XP_003984988.1
+	- Drosophila melanogaster: AAL28848.1
+	- Danaus plexippus: XP_032526587.1
+	- Solenopsis invicta: XP_011159676.1
+	- Parasteatoda tepidariorum: XP_015930281.1
+	- Ixodes scapularis: XP_029825882.1
+	- Penaeus japonicus: XP_042859094.1
+	- Homarus americanus: XP_042234205.1
+	- Portunus trituberculatus: XP_045124022.1
+	- Penaeus vannamei: XP_027230025.1
+	- Procambarus clarkii: XP_045622468.1
+
+
+The following species lack a sufficiently similar protein sequence: 
+	- Saccharolobus solfataricus (0%)
+	- Halobacterium salinarum (0%)
+	- Pyrococcus furiosus (0%)
+	- Ptychodera flava (24%)
+	- Ciona intestinalis (39%)
+	- Columba livia (42%)
+	- Otolemur garnettii (42%)
+	- Naegleria gruberi (32%)
+	- Tetrahymena thermophila (32%)
+	- Dictyostelium discoideum (35%)
+	- Streptomyces coelicolor (30%)
+	- Azotobacter vinelandii (25%)
+	- Aliivibrio fischeri (24%)
+	- Caulobacter vibrioides (0%)
+	- Neurospora crassa (38%)
+	- Saccharomyces cerevisiae (31%)
+	- Schizosaccharomyces pombe (36%)
+	- Coprinopsis cinerea (34%)
+	- Schistosoma japonicum (46%)
+	- Echinococcus granulosus (32%)
+	- Caenorhabditis elegans (49%)
+	- Meloidogyne enterolobii (48%)
+
