@@ -22,21 +22,45 @@ Database: PDB_Database
 
 
 Query= 
-Length=261
+Length=184
+                                                                      Score     E
+Sequences producing significant alignments:                          (Bits)  Value
+
+  6vcd_B mol:protein length:492 F-box/LRR-repeat protein 5            385     2e-133
 
 
-***** No hits found *****
+> 6vcd_B mol:protein length:492  F-box/LRR-repeat protein 5
+Length=492
+
+ Score = 385 bits (989),  Expect = 2e-133, Method: Compositional matrix adjust.
+ Identities = 184/184 (100%), Positives = 184/184 (100%), Gaps = 0/184 (0%)
+
+Query  1    TSHQSGFLKTSTSKITSTAWKNKDITMQSTKQYACLHDLTNKGIGEEIDNEHPWTKPVSS  60
+            TSHQSGFLKTSTSKITSTAWKNKDITMQSTKQYACLHDLTNKGIGEEIDNEHPWTKPVSS
+Sbjct  213  TSHQSGFLKTSTSKITSTAWKNKDITMQSTKQYACLHDLTNKGIGEEIDNEHPWTKPVSS  272
+
+Query  61   ENFTSPYVWMLDAEDLADIEDTVEWRHRNVESLCVMETASNFSCSTSGCFSKDIVGLRTS  120
+            ENFTSPYVWMLDAEDLADIEDTVEWRHRNVESLCVMETASNFSCSTSGCFSKDIVGLRTS
+Sbjct  273  ENFTSPYVWMLDAEDLADIEDTVEWRHRNVESLCVMETASNFSCSTSGCFSKDIVGLRTS  332
+
+Query  121  VCWQQHCASPAFAYCGHSFCCTGTALRTMSSLPESSAMCRKAARTRLPRGKDLIYFGSEK  180
+            VCWQQHCASPAFAYCGHSFCCTGTALRTMSSLPESSAMCRKAARTRLPRGKDLIYFGSEK
+Sbjct  333  VCWQQHCASPAFAYCGHSFCCTGTALRTMSSLPESSAMCRKAARTRLPRGKDLIYFGSEK  392
+
+Query  181  SDQE  184
+            SDQE
+Sbjct  393  SDQE  396
 
 
 
 Lambda      K        H        a         alpha
-   0.304    0.123    0.339    0.792     4.96 
+   0.316    0.127    0.401    0.792     4.96 
 
 Gapped
 Lambda      K        H        a         alpha    sigma
    0.267   0.0410    0.140     1.90     42.6     43.6 
 
-Effective search space used: 23916469536
+Effective search space used: 12317283648
 
 
   Database: PDB_Database
