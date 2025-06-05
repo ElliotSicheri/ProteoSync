@@ -1,0 +1,196 @@
+
+Scientific name	(Common name)				taxid
+
+-------
+MAMMALS
+-------
+Homo sapiens (Human)	 				9606
+Mus musculus (House mouse)		 		10090
+Equus caballus (Horse)	 				9796
+Felis catus (Cat)		 			9685
+Bos taurus (Cow)		 			9913
+Rattus norvegicus (Brown rat)		 		10116
+Sus scrofa (Wild boar)		 			9823
+Canis lupus (Grey wolf)		 			9612
+Macaca mulatta (Rhesus macaque)	 			9544
+Monodelphis domestica (Gray short-tailed opossum)	13616
+Otolemur garnettii (Northern greater galago)		30611
+Neosciurus carolinensis	(Eastern gray squirrel)		30640
+Ursus arctos (Brown bear)				9644
+Orcinus orca (Orca whale)				9733
+Myotis myotis (Greater mouse-eared bat)			51298
+
+
+-----
+BIRDS
+-----
+Gallus gallus (Chicken)		 			9031
+Columba livia (Rock pigeon)	 			8932
+Taeniopygia guttata (Zebra finch)			59729
+
+
+----------
+AMPHIBIANS
+----------
+Xenopus tropicalis (Western clawed frog)		8364
+Xenopus laevis (African clawed frog)	 		8355
+Geotrypetes seraphini (Gaboon caecilian)
+
+
+--------
+REPTILES
+--------
+Trachemys scripta elegans (Red-eared slider turtle)	31138
+Pogona vitticeps (Bearded dragon)		 	103695
+Crotalus tigris	(Tiger rattlesnake)			88082
+Anolis carolinensis (Green anole)
+
+
+---------
+TUNICATES
+---------
+Ciona intestinalis (Transparent sea squirt)		7719
+Oikopleura dioica					34765
+
+
+---------------
+CEPHALOCHORDATA
+---------------
+Branchiostoma lanceolatum (Common lancelet)		7740
+Branchiostoma floridae (Florida lancelet)		7739
+
+
+-----------
+CRUSTACEANS
+-----------
+Homarus americanus (American Lobster)			6706
+Penaeus vannamei (Whiteleg shrimp)			6689
+Penaeus japonicus (Marsupenaeus shrimp) 		27405
+Procambarus clarkii (Red swamp crayfish)		6728
+Portunus trituberculatus (Swimming crab)		210409
+
+
+----
+FISH
+----
+Danio rerio (Zebrafish)		 			7955
+Salmo salar (Atlantic salmon)				8030
+Oncorhynchus nerka (Sockeye salmon)			8023
+Takifugu rubripes (Tiger pufferfish)			31033
+Anguilla anguilla (European eel)			7936
+Scyliorhinus torazame (Cloudy catshark)			75743
+Latimeria chalumnae (African coelacanth)		7897
+Callorhinchus milii (Australian ghostshark)		7868
+Protopterus annectens (West African lungfish)		7888
+Cynoglossus semilaevis (Tongue sole)			244447
+Petromyzon marinus (Sea lamprey)			7757
+
+
+
+---------
+ARACHNIDS
+---------
+Parasteatoda tepidariorum (Common house spider)		114398
+Ixodes scapularis (Deer tick)		 		6945
+
+
+-------
+INSECTS
+-------
+Drosophila melanogaster	(Fruit fly)			7227
+Danaus plexippus (Monarch butterfly)			13037
+Solenopsis invicta (Red fire ant)			13686
+
+
+--------
+MOLLUSKS
+--------
+Octopus bimaculoides (California two-spot octopus)	37653
+Mercenaria mercenaria (Hard clam)			6596
+Mytilus edulis (Blue mussel)				6550
+ctopus sinensis (East Asian common octopus)		2607531
+
+
+-------------	
+ECHINODERMATA
+-------------	
+Acanthaster planci (Crown-of-thorns starfish)		133434
+Patiria miniata	(Bat starfish)	 			46514
+Lytechinus variegatus (Green sea urchin)		7654
+
+
+------------------
+PORIFERA (SPONGES)
+------------------
+Amphimedon queenslandica				400682
+Sycon ciliatum		 				27933
+
+
+--------
+CNIDARIA
+--------	
+Nematostella vectensis (Starlet sea anemone)		45351
+Stylophora pistillata (Hood coral)	 		50429
+
+
+---------------------------
+PLATYHELMINTHES (FLATWORMS)
+---------------------------
+Echinococcus granulosus (Hydatid worm)			6210
+Schistosoma japonicum					6182
+		
+
+---------
+NEMATODES
+---------
+Caenorhabditis elegans 					6239
+Meloidogyne enterolobii					390850
+
+
+--------
+ANNELIDS
+--------
+Lamellibrachia satsuma	 				104711
+Dimorphilus gyrociliatus				2664684
+
+
+------------
+HEMICHORDATA
+------------
+Saccoglossus kowalevskii (Acorn worm)			10224
+Ptychodera flava (Acorn worm)				63121
+
+
+-----
+FUNGI
+-----
+Saccharomyces cerevisiae (Brewer's yeast)		4932
+Schizosaccharomyces pombe (Fission yeast)		4896
+Coprinopsis cinerea (Gray shag mushroom)		5346
+Neurospora crassa					5141
+
+
+------
+ARCHEA
+------
+Pyrococcus furiosus					2261
+Halobacterium salinarum					2242
+Saccharolobus solfataricus				2287
+
+
+--------
+PROTISTS
+--------
+Dictyostelium discoideum				44689
+Tetrahymena thermophila					5911
+Naegleria gruberi					5762
+
+
+--------
+BACTERIA
+--------
+Streptomyces coelicolor		 			1902
+Caulobacter vibrioides					155892
+Aliivibrio fischeri					668
+Azotobacter vinelandii 					354
+Escherichia coli					
