@@ -28,7 +28,8 @@ class AlignController:
 
     def __init__(self):
         self.successes = {}
-        self.fails = {}
+        self.fails_i = {}
+        self.fails_l = {}
         self.i_threshold = 0
         self.len_threshold = 0
         self.alignment_file = ''
@@ -87,7 +88,7 @@ class AlignController:
 
         # Runs local BLAST searches on species databases
         try:
-            successes, fails = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', i_threshold, len_threshold, path_list)
+            successes, fails_i, fails_l = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', i_threshold, len_threshold, path_list)
         except Exception as error:
             print("Error running BLAST searches:\n")
             traceback.print_exc()
@@ -104,7 +105,8 @@ class AlignController:
             return 1
 
         self.successes = successes
-        self.fails = fails
+        self.fails_i = fails_i
+        self.fails_l = fails_l
         self.i_threshold = i_threshold
         self.len_threshold = len_threshold
 
@@ -131,7 +133,6 @@ class AlignController:
         except Exception as error:
             print("Error running PDB search:\n")
             traceback.print_exc()
-            # print(type(error), error)
             print('\n')
             return 1
 
@@ -168,8 +169,9 @@ class AlignController:
         """
         try:
             output_name = FileManagement.assemble_output_file(self.alignment_file, self.i_threshold, self.len_threshold,
-                                                              self.successes, self.fails, self.struc_list,
-                                                              self.exclude_list, self.alpha_struct, filename)
+                                                              self.successes, self.fails_i, self.fails_l,
+                                                              self.struc_list, self.exclude_list, self.alpha_struct,
+                                                              filename)
 
             # Copy over structure files, if they exist
             if exists(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".pdb"):

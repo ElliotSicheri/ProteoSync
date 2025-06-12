@@ -19,14 +19,17 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
     Returns:
         -   dict of datasets that returned a hit above the thresholds mapped to the accession code of the hit sequence
         -   dict of datasets that did not return a hit above the identity threshold, mapped to their % identity
+        -   dict of datasets that returned a hit above the identity threshold but not within the length threshold,
+            mapped to % identity and % length with respect to the query sequence
     """
 
     formatted_results = ''  # Properly formatted result string
     successful_searches = {}  # Species that returned a hit above the threshold
-    failed_searches = {}  # Species that did not return a hit above the threshold
+    failed_iden = {}  # Species that did not return a hit above the threshold
+    failed_len = {}  # Species that passed % identity threshold, but not length threshold
 
-    low_lim = 1 - len_threshold / 100
-    high_lim = 1 + len_threshold / 100
+    low_lim = 100 - len_threshold
+    high_lim = 100 + len_threshold
 
     with open(seq_file) as f:
         query_len = len(f.read().replace('\n', ''))
@@ -39,19 +42,23 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
         blast()
         sequence, code, score = _return_first_hit()
         species = os.path.basename(path)
-        if score > i_threshold and low_lim < len(sequence) / query_len < high_lim:
+        len_score = int((len(sequence) / query_len) * 100)
+
+        if score < i_threshold:
+            failed_iden[species] = score
+        elif low_lim > len_score or len_score > high_lim:
+            failed_len[species] = (score, len_score)
+        else:
             formatted_results += '> ' + species + '_[' + str(score) + '] \n'
             formatted_results += sequence + '\n'
             successful_searches[species] = code
-        else:
-            failed_searches[species] = score
 
     with open(base_path+'/temp_files/formatted_results.txt', 'w') as file:
         # Clears the contents of formatted_results.txt and writes the formatted data to the file
         file.truncate(0)
         file.write(formatted_results)
 
-    return successful_searches, failed_searches
+    return successful_searches, failed_iden, failed_len
 
 
 def _return_first_hit() -> (str, str, int):

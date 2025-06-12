@@ -321,6 +321,11 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         url = link_pattern.format(uniprot_id)
         response = requests.get(url)
 
+        if not exists(filename):
+            print('An error occured while downloading the AlphaFold prediction. '
+                  'It is possible that a prediction is not available from UniProt.')
+            return ''
+
         with open(filename, 'w') as pdb_file:
             for line in response.iter_lines():
                 pdb_file.write(str(line)[2:len(line) - 2] + '\n')

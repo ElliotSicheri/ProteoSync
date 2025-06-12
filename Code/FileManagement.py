@@ -75,8 +75,8 @@ def get_fastas_from_uniprots(uniprots: list[str]) -> list[str]:
 
 
 def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int, successes: dict[str:str],
-                         fails: dict[str:int], pdb_list: list[(str, str)] = [], exclude_list: list[str] = [],
-                         alpha_struc_str: str = '', filename: str = '') -> str:
+                         fails_i: dict[str:int], fails_l: dict[str:(int, int)], pdb_list: list[(str, str)] = [],
+                         exclude_list: list[str] = [], alpha_struc_str: str = '', filename: str = '') -> str:
     """Given the results of other functions from this package, parses a full alignment file. Returns the file name."""
 
     pdb_indexes = []
@@ -200,10 +200,17 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
             output.write('\t- ' + success.replace('_', ' ') + ': ' + successes[success] + '\n')
     output.write('\n')
 
-    if len(fails) > 0:
+    if len(fails_i) > 0:
         output.write('\nThe following species lack a sufficiently similar protein sequence: \n')
-        for species in fails.keys():
-            output.write('\t- ' + species.replace('_', ' ') + ' (' + str(fails[species]) + '%)\n')
+        for species in fails_i.keys():
+            output.write('\t- ' + species.replace('_', ' ') + ' (' + str(fails_i[species]) + '%)\n')
+    output.write('\n')
+
+    if len(fails_l) > 0:
+        output.write('\nThe following species exceeded the length threshold: \n')
+        for species in fails_l.keys():
+            output.write('\t- ' + species.replace('_', ' ') + ' (identity: ' + str(fails_l[species][0]) + '%, length: ' +
+                         str(fails_l[species][1]) + '%)\n')
     output.write('\n')
 
     if len(identity_list) > 0:
