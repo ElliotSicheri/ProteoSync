@@ -125,14 +125,14 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                 # Counts down 5 rows from the beginning of unmodelled residue section
                 row_tally -= 1
             elif row_tally == 0:
-                if int(line[6:10]) == remark_num and line[19] == chain:
+                if line[:6] != 'REMARK' or int(line[6:10]) != remark_num:
+                    row_tally = -1  # Reached end of unmodelled residue section
+                elif line[19] == chain:
                     res_num = int(line[21:26])
                     if len(unmodelled_sections) != 0 and unmodelled_sections[-1][1] == res_num - 1:
                         unmodelled_sections[-1][1] = res_num
                     else:
                         unmodelled_sections.append([res_num, res_num])
-                elif int(line[6:10]) != remark_num:
-                    row_tally = -1  # Reached end of unmodelled residue section
             elif (line[0:6] == 'DBREF ' or line[0:6] == 'DBREF1') and line[12] == chain:
                 chain_start = int(line[14:18])
                 lowest_index = chain_start
