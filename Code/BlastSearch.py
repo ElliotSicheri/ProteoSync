@@ -4,20 +4,21 @@ import os
 base_path = 'Desktop/ProteoSync'
 
 
-def blast_search(seq_file: str, threshold: int, len_threshold: int, path_list: list[str]) -> (dict[str: str], dict[str: int]):
-    """BLAST searches the sequence from the given file against a series of species-specific databases and writes the
-    top hits from each in an output file if they have a % identity above the given threshold.
-
-    Does not search for any species found in the given exclude_list. Species in include_list have their top hit written
-    to the output file, whether it has % identity above the given threshold or not.
-
-    Returns a dict of species that returned a hit above the threshold mapped to the accession code of the hit sequence,
-    and a list of species that did not return a hit above the threshold.
+def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list: list[str]) \
+        -> (dict[str: str], dict[str: int], dict[str: (int, int)]):
+    """BLAST searches the query sequence from seq_file against a set of BLAST-formatted databases given by path_list.
+    Writes the top hit sequence from each database in an output file if they have a % identity above the given identity
+    threshold and have length .
 
     Parameters:
-        - seq_file: str, the name of the file that contains the query sequence
-        - threshold: int, % identity threshold for which BLAST hits are included
-        - path_list: list[str], list of paths which contain a database to be checked
+        -   seq_file: str, the path to the file that contains the query sequence
+        -   i_threshold: int, % identity threshold for which BLAST hits are included
+        -   len_threshold: int, % length threshold with respect to the length query sequence
+        -   path_list: list[str], list of paths which contain databases to be searched
+
+    Returns:
+        -   dict of datasets that returned a hit above the thresholds mapped to the accession code of the hit sequence
+        -   dict of datasets that did not return a hit above the identity threshold, mapped to their % identity
     """
 
     formatted_results = ''  # Properly formatted result string
@@ -38,7 +39,7 @@ def blast_search(seq_file: str, threshold: int, len_threshold: int, path_list: l
         blast()
         sequence, code, score = _return_first_hit()
         species = os.path.basename(path)
-        if score > threshold and low_lim < len(sequence) / query_len < high_lim:
+        if score > i_threshold and low_lim < len(sequence) / query_len < high_lim:
             formatted_results += '> ' + species + '_[' + str(score) + '] \n'
             formatted_results += sequence + '\n'
             successful_searches[species] = code

@@ -1,1 +1,4 @@
 **/.DS_Store
+downloads/*
+output/*
+temp_files/*

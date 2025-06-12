@@ -15,8 +15,23 @@ dssp_dict = {'H': 'A', 'B': 'B', 'E': 'B', 'I': '-', 'S': '-', 'G': '-', 'T': '-
 
 
 def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int) = (0, 0)) -> list[(str, str)]:
-    """Runs a BLAST search of the PDB database for sequences that are closest to the given sequence. Returns the PBD
-    codes and a string representing the secondary structure of these proteins."""
+    """Runs a BLAST search of the local BLAST-formatted PDB sequence database for sequences that are closest to the
+    given sequence. Downloads the corresponding .pdb files from the PDB, and extracts the secondary structure for the
+    hit sequences. Aligns the secondary structure to the query sequence and returns as a string.
+
+    Recursively searches large regions left unmodelled by the found structures, to account for structures that model
+    single domains of a larger protein.
+
+    Parameters:
+        -   seq_file: str, the path to the file that contains the query sequence
+        -   rec_count: int, current depth of recursion
+        -   search_range: (int, int), range of the sequence to search. (0, 0) defaults to searching the entire sequence.
+
+    Returns:
+        List of tuples each containing the PBD code of the hit sequence and a string representing the secondary
+        structure of that chain aligned to the query sequence.
+    """
+
 
     with open(seq_file, 'r') as query_file:
         query = query_file.read()
@@ -212,6 +227,8 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
             elif 'Hit_sequence' in line:
                 hit_aln += line[20:].strip()
 
+        # Align the secondary structure string to the query sequence
+
         i = 0  # Index in aligned sequences
         st_i = 0  # Index in structure_str
         final_struc_str = ''  # Final aligned structure string
@@ -257,8 +274,9 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
         if not is_in:
             return_list.append(struc)
 
+    # Recursively reruns any large unmodelled sections on their own
+
     if rec_count == 0:
-        # Reruns any large unmodelled sections on their own
         rerun_list = []
         for sec in top_unmodelled:
             if sec[1] - sec[0] >= 20:
@@ -278,9 +296,18 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
 
     return return_list
 
+
 def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
-    """Downloads an alphafold prediction listed by the given UniProt id. Returns a string representing its secondary
-    structure aligned to the query string."""
+    """Downloads an alphafold prediction from UniProt listed by the given UniProt id. Returns a string representing its
+    secondary structure aligned to the query sequence in seq_file.
+
+    Parameters:
+        -   seq_file: str, path to the file containing the query sequence
+        -   uniprot_id: uniprot
+
+    Returns:
+        A string representing the secondary structure of the alphafold prediction, aligned to the query sequence
+    """
 
     with open(seq_file, 'r') as query_file:
         query = query_file.read()

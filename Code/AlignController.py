@@ -29,7 +29,7 @@ class AlignController:
     def __init__(self):
         self.successes = {}
         self.fails = {}
-        self.threshold = 0
+        self.i_threshold = 0
         self.len_threshold = 0
         self.alignment_file = ''
         self.struct = ''
@@ -40,10 +40,12 @@ class AlignController:
         self.exclude_list = []
 
     def update_database(self) -> int:
-        """Updates the local PDB database. Returns an error code.
-        Error codes:
-        0: Function executed successfully
-        1: an error occurred"""
+        """Updates the local PDB database.
+
+        Returns:
+            -   0 if function executed successfully
+            -   1 if an error occurred
+        """
         try:
             FileManagement.update_database()
         except Exception as error:
@@ -55,15 +57,21 @@ class AlignController:
 
         return 0
 
-    def run_blast(self, sequence: str, tax_tree: TaxFileManager.TaxTreeNode, threshold: int = 40, len_threshold: int = 40) -> int:
+    def run_blast(self, sequence: str, tax_tree: TaxFileManager.TaxTreeNode, i_threshold: int, len_threshold: int) -> int:
         """
         Runs a blast search with the given sequence against all species databases selected in the given tax tree.
         Stores the results in this object.
 
-        Returns an error code:
-            0: Function was successful
-            1: No hits were found
-            2: Other error
+        Parameters:
+            -   sequence: str, query sequence to search against
+            -   tax_tree: TaxTreeNode, root node of the tax tree
+            -   i_threshold: int, % identity threshold for filtering BLAST results
+            -   len_threshold: int, % length threshold for filtering BLAST results
+
+        Returns:
+            -   0 if function was successful
+            -   1 if no hits were found from the BLAST search
+            -   2 if an error occurred
         """
 
         print("Running BLAST searches...")
@@ -79,11 +87,10 @@ class AlignController:
 
         # Runs local BLAST searches on species databases
         try:
-            successes, fails = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', threshold, len_threshold, path_list)
+            successes, fails = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', i_threshold, len_threshold, path_list)
         except Exception as error:
             print("Error running BLAST searches:\n")
             traceback.print_exc()
-            # print(type(error), error)
             print('\n')
             return 2
 
@@ -98,7 +105,7 @@ class AlignController:
 
         self.successes = successes
         self.fails = fails
-        self.threshold = threshold
+        self.i_threshold = i_threshold
         self.len_threshold = len_threshold
 
         return 0
@@ -113,9 +120,9 @@ class AlignController:
         Runs a pdb structure search on the sequence file and concatenates a string representing the protein
         structure. Stores the results in this object.
 
-        Returns an error code:
-        0: Function executed successfully.
-        1: An error occurred.
+        Returns:
+            -   0 if function executed successfully
+            -   1 if an error occurred
         """
         print("Searching pdb database...")
 
@@ -136,9 +143,9 @@ class AlignController:
     def run_alpha_search(self, uniprot_id: str) -> int:
         """Runs an alphafold search on the given uniprot id. Stores the result in this object.
 
-        Returns an error code:
-        0: Function returned successfully
-        1: An error occurred
+        Returns:
+            -   0 if function executed successfully
+            -   1 if an error occurred
         """
         print("Analyzing AlphaFold model...")
         try:
@@ -154,9 +161,13 @@ class AlignController:
         return 0
 
     def assemble_output(self, filename: str) -> str:
-        """Assembles output file from other function outputs. Returns output file name."""
+        """
+        Assembles output file from other function outputs.
+        Returns:
+            Path to output file.
+        """
         try:
-            output_name = FileManagement.assemble_output_file(self.alignment_file, self.threshold, self.len_threshold,
+            output_name = FileManagement.assemble_output_file(self.alignment_file, self.i_threshold, self.len_threshold,
                                                               self.successes, self.fails, self.struc_list,
                                                               self.exclude_list, self.alpha_struct, filename)
 
@@ -187,7 +198,7 @@ class AlignController:
         """Clears results stored in this object."""
         self.successes = {}
         self.fails = {}
-        self.threshold = 0
+        self.i_threshold = 0
         self.alignment_file = ''
         self.struct = ''
         self.pdb_codes = []

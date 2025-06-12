@@ -7,7 +7,6 @@ import shutil
 import requests
 
 base_path = 'Desktop/ProteoSync'
-# base_path = '.'
 
 def update_database() -> None:
     """Updates the local PDB database."""
