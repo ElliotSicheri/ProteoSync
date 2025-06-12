@@ -102,8 +102,8 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
         filename = base_path+'/downloads/pdb_structures/pdb' + code + '.pdb'
 
         # Locates unmodelled areas in the PDB file and extracts the protein sequence. If there are any sections added to
-        # the front of the sequence with position labelled as <= 0, count the number of residues in said section, so it
-        # can be accounted for when removing unmodelled sections from the structure string.
+        # the front of the sequence with position labelled as <= the chain start, count the earliest residue index, so
+        # it can be accounted for when removing unmodelled sections from the structure string.
         with open(filename, 'r') as pdb_file:
             lines = pdb_file.readlines()
             pdb_file.close()
@@ -126,7 +126,8 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                 row_tally -= 1
             elif row_tally == 0:
                 if line[:6] != 'REMARK' or int(line[6:10]) != remark_num:
-                    row_tally = -1  # Reached end of unmodelled residue section
+                    # Reached end of unmodelled residue section
+                    row_tally = -1
                 elif line[19] == chain:
                     res_num = int(line[21:26])
                     if len(unmodelled_sections) != 0 and unmodelled_sections[-1][1] == res_num - 1:
@@ -134,6 +135,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                     else:
                         unmodelled_sections.append([res_num, res_num])
             elif (line[0:6] == 'DBREF ' or line[0:6] == 'DBREF1') and line[12] == chain:
+                # Find the start index of the target chain
                 chain_start = int(line[14:18])
                 lowest_index = chain_start
             elif line[0:6] == 'SEQADV':
@@ -320,11 +322,6 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         link_pattern = 'http://alphafold.ebi.ac.uk/files/AF-{}-F1-model_v3.pdb'
         url = link_pattern.format(uniprot_id)
         response = requests.get(url)
-
-        if not exists(filename):
-            print('An error occured while downloading the AlphaFold prediction. '
-                  'It is possible that a prediction is not available from UniProt.')
-            return ''
 
         with open(filename, 'w') as pdb_file:
             for line in response.iter_lines():
