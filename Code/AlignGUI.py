@@ -1,14 +1,13 @@
 """
-GUI for running Alignment Manager.
+ProteoSync GUI classes.
 """
 
 import AlignController
 import TaxFileManager
-from datetime import date
 import tkinter
+from datetime import date
 
 base_path = 'Desktop/ProteoSync'
-# base_path = '.'
 
 
 class CheckboxTree:

@@ -1,3 +1,8 @@
+"""
+Contains functions for performing structural analysis of protein sequences against solved and predicted protein
+structures
+"""
+
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Blast.Applications import NcbiblastpCommandline
 from Bio.PDB import PDBList, DSSP, PDBParser
@@ -23,9 +28,9 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
     single domains of a larger protein.
 
     Parameters:
-        -   seq_file: str, the path to the file that contains the query sequence
-        -   rec_count: int, current depth of recursion
-        -   search_range: (int, int), range of the sequence to search. (0, 0) defaults to searching the entire sequence.
+        -   seq_file: str, The path to the file that contains the query sequence
+        -   rec_count: int, Current depth of recursion
+        -   search_range: (int, int), Range of the sequence to search. (0, 0) defaults to searching the entire sequence.
 
     Returns:
         List of tuples each containing the PBD code of the hit sequence and a string representing the secondary
@@ -159,10 +164,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                             seq_str += 'X'  # Accounts for uncommon residue modifications
                         i += 4
 
-        if lowest_index < chain_start:
-            start_offset = lowest_index
-        else:
-            start_offset = chain_start
+        start_offset = min(lowest_index, chain_start)
 
         # Remove unmodelled sections from the sequence
         if len(unmodelled_sections) > 0:
@@ -200,57 +202,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
         for ch in dssp_structure_str:
             structure_str += dssp_dict[ch]
 
-        # Aligns query sequence with the sequence of the PDB hit, aligns structure string to query sequence
-        with open(base_path+'/temp_files/s_aln.txt', 'w') as s_aln:
-            s_aln.write('> Query_sequence\n')
-            s_aln.write(query + '\n')
-            s_aln.write('> Query_seq_2\n')
-            s_aln.write(query + '\n')
-            s_aln.write('> Hit_sequence\n')
-            s_aln.write(unmodelled_seq + '\n')
-            s_aln.close()
-
-        cmd = ClustalwCommandline('clustalw', infile=base_path+'/temp_files/s_aln.txt')
-        stdout, stderr = cmd()
-        # Extracts the name of the output file from the readout
-        s = stdout.rfind('[')
-        e = stdout.rfind(']')
-        output_file = stdout[s + 1:e]
-
-        with open(output_file, 'r') as output:
-            aln_lines = output.readlines()
-            output.close()
-
-        query_aln = ''
-        hit_aln = ''
-        for line in aln_lines:
-            if 'Query_sequence' in line:
-                query_aln += line[20:].strip()
-            elif 'Hit_sequence' in line:
-                hit_aln += line[20:].strip()
-
-        # Align the secondary structure string to the query sequence
-
-        i = 0  # Index in aligned sequences
-        st_i = 0  # Index in structure_str
-        final_struc_str = ''  # Final aligned structure string
-
-        while i < len(query_aln):
-            # It is assumed that it is impossible for both aligned sequences to have '-' at the same index
-            if query_aln[i] == '-':
-                # For sections that are missing from the query sequence, skip that part of the structure string
-                st_i += 1
-            elif hit_aln[i] == '-':
-                # For sections missing from the hit sequence, list section as unmodelled.
-                final_struc_str += 'X'
-            else:
-                # Otherwise, plot the secondary structure as normal
-                if st_i < len(structure_str):
-                    final_struc_str += structure_str[st_i]
-                    st_i += 1
-                else:
-                    final_struc_str += 'X'
-            i += 1
+        final_struc_str = align_structure_str(query, unmodelled_seq, structure_str)
 
         # Creates a new unmodelled sections list that is aligned to the structure string
         unmodelled_sections_new = []
@@ -300,12 +252,12 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
 
 
 def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
-    """Downloads an alphafold prediction from UniProt listed by the given UniProt id. Returns a string representing its
+    """Downloads an alphafold prediction from UniProt listed by the given UniProt ID. Returns a string representing its
     secondary structure aligned to the query sequence in seq_file.
 
     Parameters:
-        -   seq_file: str, path to the file containing the query sequence
-        -   uniprot_id: uniprot
+        seq_file: str, The path to the file containing the query sequence
+        uniprot_id: str, UniProt ID of the protein to download the AlphaFold prediction for
 
     Returns:
         A string representing the secondary structure of the alphafold prediction, aligned to the query sequence
@@ -369,15 +321,35 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         structure_str += dssp_dict[dssp_structure_str[i]]
         i += 1
 
-    # Aligns query sequence with the sequence of the PDB hit, aligns structure string to query sequence
-    with open(base_path+'/temp_files/s_aln.txt', 'w') as s_aln:
+    final_struc_str = align_structure_str(query, seq_str, structure_str)
+
+    return final_struc_str
+
+
+def align_structure_str(query_seq: str, hit_seq: str, struct_str: str):
+    """
+    Helper function; aligns the structure string derived from the hit sequence to the query sequence.
+
+    Parameters:
+        query_seq: str, the query sequence to align the structure to
+        hit_seq: str, the hit sequence that the structure string was derived from
+        struct_str: str, the string representation of the secondary structure derived from hit_seq
+
+    Returns:
+        Secondary structure string aligned to query_seq
+    """
+
+    # Aligns query sequence with hit sequence
+    with open(base_path + '/temp_files/s_aln.txt', 'w') as s_aln:
         s_aln.write('> Query_sequence\n')
-        s_aln.write(query + '\n')
+        s_aln.write(query_seq + '\n')
+        s_aln.write('> Query_seq_2\n')
+        s_aln.write(query_seq + '\n')
         s_aln.write('> Hit_sequence\n')
-        s_aln.write(seq_str + '\n')
+        s_aln.write(hit_seq + '\n')
         s_aln.close()
 
-    cmd = ClustalwCommandline('clustalw', infile=base_path+'/temp_files/s_aln.txt')
+    cmd = ClustalwCommandline('clustalw', infile=base_path + '/temp_files/s_aln.txt')
     stdout, stderr = cmd()
     # Extracts the name of the output file from the readout
     s = stdout.rfind('[')
@@ -388,6 +360,7 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         aln_lines = output.readlines()
         output.close()
 
+    # Get aligned sequences
     query_aln = ''
     hit_aln = ''
     for line in aln_lines:
@@ -408,15 +381,15 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         elif hit_aln[i] == '-':
             # For sections missing from the hit sequence, assume that the corresponding section of the query
             # sequence is not structurally relevant.
-            if st_i < len(structure_str) and structure_str[st_i] == 'X':
-                final_struc_str += structure_str[st_i]
+            if st_i < len(struct_str) and struct_str[st_i] == 'X':
+                final_struc_str += struct_str[st_i]
                 st_i += 1
             else:
                 final_struc_str += 'X'
         else:
             # Otherwise, plot the secondary structure as normal
-            if st_i < len(structure_str):
-                final_struc_str += structure_str[st_i]
+            if st_i < len(struct_str):
+                final_struc_str += struct_str[st_i]
                 st_i += 1
             else:
                 final_struc_str += '-'

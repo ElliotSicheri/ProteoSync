@@ -5,7 +5,7 @@ def get_alignment(input_file: str) -> str:
     """Creates a sequence alignment from the sequences in the input file, then writes it to an output file.
 
     Parameters:
-        -   input_file: str, path to the file containing the sequences to be aligned.
+        input_file: str, path to the file containing the sequences to be aligned.
 
     Returns:
         Path to the output file.

@@ -1,4 +1,6 @@
-"""Contains functions for creating, manipulating, and interacting with database taxonomy trees."""
+"""
+Contains functions for creating, manipulating, and interacting with database taxonomy trees.
+"""
 
 import os
 import tkinter
@@ -25,9 +27,18 @@ class TaxTreeNode:
 
 
 def make_tax_tree(directory: str) -> TaxTreeNode:
-    """Creates a taxonomy tree from the file structure of the given directory. Returns the root node.
+    """
+    Creates a taxonomy tree data structure from the directory structure of the given directory.
+
     Internal node directories should only contain directories. Leaf node directories should only contain files.
-    It is assumed that a valid and properly structured directory pathway is passed to the function."""
+    It is assumed that a valid and properly structured directory pathway is passed to the function.
+
+    Parameters:
+        directory: str, Path to the root database directory
+
+    Returns:
+        Root node of the newly generated taxonomy tree structure
+    """
 
     root_node = TaxTreeNode(directory)
     no_dirs = True
@@ -50,8 +61,10 @@ def tax_tree_print(node: TaxTreeNode, level: int = 0):
 
 
 def get_path_list(node: TaxTreeNode) -> (list[str], list[str]):
-    """Returns a list of file paths for leaf nodes in the tax tree that have a path from the root node such that each
-    node in the path has an include value of 1, and a list of nodes along this path for which the include value is 0."""
+    """
+    Returns a list of file paths corresponding to leaf nodes in the tax tree that have a path from the root node such
+    that each node in the path has an include value of 1, and a list of nodes for which the include value is 0.
+    """
     if node.include.get() == 1:
         if node.is_leaf:
             return [node.path], []

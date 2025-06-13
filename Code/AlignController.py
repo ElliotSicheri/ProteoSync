@@ -1,20 +1,14 @@
 """
-ProteoSync controller class
-
-ProteoSync helps identify unconserved segments in a protein sequence by:
-    -   BLAST searching the sequence against several small species-specific databases
-    -   Creating a clustalw sequence alignment with the top hits from each search
-    -   Finding the closest ortholog to the sequence from the PBD database and aligning its secondary structure
-    -   Finding the AlphaFold model for the sequence and aligning its secondary structure
+ProteoSync controller class.
 """
 
 import AlignGUI
 import TaxFileManager
-import traceback
 import FileManagement
 import BlastSearch
 import StructSearch
 import ClustalAlignment
+import traceback
 import shutil
 
 import os
@@ -41,7 +35,8 @@ class AlignController:
         self.exclude_list = []
 
     def update_database(self) -> int:
-        """Updates the local PDB database.
+        """
+        Updates the local BLAST-formatted PDB sequence database.
 
         Returns:
             -   0 if function executed successfully
@@ -64,10 +59,10 @@ class AlignController:
         Stores the results in this object.
 
         Parameters:
-            -   sequence: str, query sequence to search against
-            -   tax_tree: TaxTreeNode, root node of the tax tree
-            -   i_threshold: int, % identity threshold for filtering BLAST results
-            -   len_threshold: int, % length threshold for filtering BLAST results
+            sequence: str, Query sequence to search against
+            tax_tree: TaxTreeNode, Root node of the tax tree of databases to search
+            i_threshold: int, % identity threshold for filtering BLAST results
+            len_threshold: int, % length threshold for filtering BLAST results
 
         Returns:
             -   0 if function was successful

@@ -1,3 +1,7 @@
+"""
+Contains functions for performing BLAST searches against species database sets
+"""
+
 from Bio.Blast.Applications import NcbiblastpCommandline
 import os
 
@@ -6,15 +10,16 @@ base_path = 'Desktop/ProteoSync'
 
 def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list: list[str]) \
         -> (dict[str: str], dict[str: int], dict[str: (int, int)]):
-    """BLAST searches the query sequence from seq_file against a set of BLAST-formatted databases given by path_list.
+    """
+    BLAST searches the query sequence from seq_file against a set of BLAST-formatted databases given by path_list.
     Writes the top hit sequence from each database in an output file if they have a % identity above the given identity
-    threshold and have length .
+    threshold and have % length relative to the query sequence within the given length threshold.
 
     Parameters:
-        -   seq_file: str, the path to the file that contains the query sequence
-        -   i_threshold: int, % identity threshold for which BLAST hits are included
-        -   len_threshold: int, % length threshold with respect to the length query sequence
-        -   path_list: list[str], list of paths which contain databases to be searched
+        seq_file: str, the path to the file that contains the query sequence
+        i_threshold: int, % identity threshold for which BLAST hits are included
+        len_threshold: int, % length threshold with respect to the length query sequence
+        path_list: list[str], list of paths which contain databases to be searched
 
     Returns:
         -   dict of datasets that returned a hit above the thresholds mapped to the accession code of the hit sequence
@@ -62,7 +67,9 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
 
 
 def _return_first_hit() -> (str, str, int):
-    """Returns the sequence, accession code and % identity of the first hit in the BLAST search output file."""
+    """
+    Returns the sequence, accession code and % identity of the first hit in the BLAST search output file.
+    """
 
     hit = ''
     code = ''
