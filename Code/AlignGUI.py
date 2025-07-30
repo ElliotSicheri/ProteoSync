@@ -9,6 +9,14 @@ from datetime import date
 
 base_path = 'Desktop/ProteoSync'
 
+color_schemes = {
+    'Blues': ['#bfbfff', '#0080ff', '#191999'],
+    'Reds': ['#f7bcbc', '#ff5252', '#8a1313'],
+    'Greens': ['#a6e6a6', '#51a657', '#0a4a0e'],
+    'Grays': ['#b3b3b3', '#666666', '#000000'],
+    'High contrast': ['#00ffff', '#ffff00', '#ff0000']
+}
+
 
 class CheckboxTree:
     """Tree-based structure containing and connecting the checkbuttons on the taxonomy GUI."""
@@ -52,7 +60,10 @@ class AlignGUI:
         self.window = window
 
         self.window2 = None
+        self.color_window = None
         self.file_tree = None
+
+        self.color = tkinter.StringVar(value='Blues')
 
         seq = tkinter.Label(text='Protein sequences:', bg='#363535', fg='white')
         seq.place(x=10, y=5)
@@ -118,8 +129,12 @@ class AlignGUI:
                                 highlightbackground='#363535', command=self.update_database)
         pdb_button.place(x=510, y=240)
 
+        settings_button = tkinter.Button(text='Color settings', width=10, height=2, bg='#616161', fg='black',
+                                         highlightbackground='#363535', command=self.open_color_window)
+        settings_button.place(x=130, y=315)
+
         output_log_label = tkinter.Label(text='Output Log:', bg='#363535', fg='white')
-        output_log_label.place(x=10, y=355)
+        output_log_label.place(x=10, y=356)
 
         output_field = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
         output_field.place(x=10, y=375)
@@ -128,13 +143,13 @@ class AlignGUI:
         self.file_tree = TaxFileManager.make_tax_tree(base_path+'/databases/species')
         height = self.file_tree.get_size()
 
-        window2 = tkinter.Toplevel(self.window)
-        window2['bg'] = '#363535'
-        window2.geometry('328x700')
-        window2.title('Taxonomy settings')
-        self.window2 = window2
+        tax_window = tkinter.Toplevel(self.window)
+        tax_window['bg'] = '#363535'
+        tax_window.geometry('328x700')
+        tax_window.title('Taxonomy settings')
+        self.window2 = tax_window
 
-        button_frame = tkinter.Frame(window2)
+        button_frame = tkinter.Frame(tax_window)
 
         select_button = tkinter.Button(button_frame, text='Select all', width=7, height=1, bg='#616161', fg='black',
                                        highlightbackground='#363535', command=self.select_all)
@@ -146,10 +161,10 @@ class AlignGUI:
 
         button_frame.pack()
 
-        scrollbar = tkinter.Scrollbar(window2)
+        scrollbar = tkinter.Scrollbar(tax_window)
         scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
-        canvas = tkinter.Canvas(window2, width=500, height=700, bg='#363535', yscrollcommand=scrollbar.set,
+        canvas = tkinter.Canvas(tax_window, width=500, height=700, bg='#363535', yscrollcommand=scrollbar.set,
                                 yscrollincrement=1, scrollregion=(0, 0, 500, height * 20 + 5), borderwidth=0,
                                 highlightthickness=0)
         canvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
@@ -167,10 +182,37 @@ class AlignGUI:
         self.frame.configure(width=width)
         canvas.create_window(0, 0, anchor='nw', window=frame)
 
-        window2.geometry(str(width+scrollbar.winfo_width()+10) + "x" + str(window2.winfo_height()))
-        window2.update()
+        tax_window.geometry(str(width+scrollbar.winfo_width()+10) + "x" + str(tax_window.winfo_height()))
+        tax_window.update()
+
+        # self.open_color_window()
 
         window.mainloop()
+
+    def open_color_window(self):
+        if self.color_window is not None and self.color_window.winfo_exists():
+            self.color_window.lift()
+            self.color_window.focus_force()
+            return
+
+        color_window = tkinter.Toplevel(self.window)
+        color_window['bg'] = '#363535'
+        color_window.geometry('250x' + str(30 * len(color_schemes)))
+        color_window.title('Color settings')
+        self.color_window = color_window
+
+        for scheme_name, colors in color_schemes.items():
+            row = tkinter.Frame(color_window, bg='#363535')
+            row.pack(anchor='w', pady=2, padx=5)
+
+            rb = tkinter.Radiobutton(row, text=scheme_name, variable=self.color, value=scheme_name, bg='#363535',
+                                     fg='white', selectcolor='#363535')
+            rb.pack(side='left')
+
+            for color in colors:
+                canvas = tkinter.Canvas(row, width=15, height=15, highlightthickness=1, highlightbackground='black')
+                canvas.create_rectangle(0, 0, 15, 15, fill=color, outline=color)
+                canvas.pack(side='left', padx=2)
 
     def run_program(self) -> None:
         """Collects user input from window fields and passes it to the controller."""
@@ -181,6 +223,7 @@ class AlignGUI:
         uni_str = self.get_uniprot()
         threshold = self.get_threshold()
         len_threshold = self.get_len_threshold()
+        color_scheme = self.get_color_scheme()
 
         uni_lst = []
         if uni_str != '\n':
@@ -213,11 +256,12 @@ class AlignGUI:
                 print("Starting run " + run_name)
 
             if uni_str != '\n':
-                self._run_program(seq_lst[i], uni_lst[i], threshold, len_threshold, run_name)
+                self._run_program(seq_lst[i], uni_lst[i], threshold, len_threshold, run_name, color_scheme)
             else:
-                self._run_program(seq_lst[i], '', threshold, len_threshold, run_name)
+                self._run_program(seq_lst[i], '', threshold, len_threshold, run_name, color_scheme)
 
-    def _run_program(self, seq_str: str, uni_str: str, threshold: int, len_threshold: int, run_name: str) -> None:
+    def _run_program(self, seq_str: str, uni_str: str, threshold: int, len_threshold: int, run_name: str,
+                     color_scheme: str) -> None:
         self.aln_cont.clear()
 
         self.printout("Running BLAST searches...\n")
@@ -250,7 +294,7 @@ class AlignGUI:
                               "details.\n")
                 self.printout("Continuing...\n")
 
-        output_name = self.aln_cont.assemble_output(run_name)
+        output_name = self.aln_cont.assemble_output(run_name, color_scheme)
 
         if output_name != '':
             self.printout('Results recorded in ' + output_name + '\n')
@@ -316,6 +360,9 @@ class AlignGUI:
     def get_filename(self) -> str:
         return self.output_name_entry.get()
 
+    def get_color_scheme(self) -> str:
+        return self.color.get()
+
     def printout(self, message: str):
         """Outputs a message to the user."""
         self.output_field.insert(self.line_count, message)
@@ -330,5 +377,3 @@ class AlignGUI:
         """Deselects all checkboxes on the taxonomy menu."""
         for child in self.root_box.children:
             child.child_deselect()
-
-

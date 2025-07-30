@@ -156,7 +156,7 @@ class AlignController:
 
         return 0
 
-    def assemble_output(self, filename: str) -> str:
+    def assemble_output(self, filename: str, color_scheme: str) -> str:
         """
         Assembles output file from other function outputs.
         Returns:
@@ -166,7 +166,7 @@ class AlignController:
             output_name = FileManagement.assemble_output_file(self.alignment_file, self.i_threshold, self.len_threshold,
                                                               self.successes, self.fails_i, self.fails_l,
                                                               self.struc_list, self.exclude_list, self.alpha_struct,
-                                                              filename)
+                                                              filename, color_scheme)
 
             # Copy over structure files, if they exist
             if exists(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".pdb"):
@@ -194,12 +194,17 @@ class AlignController:
     def clear(self):
         """Clears results stored in this object."""
         self.successes = {}
-        self.fails = {}
+        self.fails_i = {}
+        self.fails_l = {}
         self.i_threshold = 0
+        self.len_threshold = 0
         self.alignment_file = ''
         self.struct = ''
         self.pdb_codes = []
         self.alpha_struct = ''
+        self.uniprot = ''
+        self.struc_list = []
+        self.exclude_list = []
 
 
 if __name__ == "__main__":

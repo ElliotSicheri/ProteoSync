@@ -8,6 +8,15 @@ import requests
 
 base_path = 'Desktop/ProteoSync'
 
+color_schemes = {
+    'Blues': ['lightblue', 'marine', 'density'],
+    'Reds': ['0xf7bcbc', '0xff5252', '0x8a1313'],
+    'Greens': ['palegreen', '0x51a657', '0x0a4a0e'],
+    'Grays': ['gray70', 'gray40', 'black'],
+    'High contrast': ['cyan', 'yellow', 'red']
+}
+
+
 def update_database() -> None:
     """Updates the local PDB database."""
 
@@ -25,9 +34,12 @@ def update_database() -> None:
 
     # Removes old database files
     print('Deleting old database files...')
-    os.remove(base_path+'/databases/pdb/pdb.fasta.phr')
-    os.remove(base_path+'/databases/pdb/pdb.fasta.pin')
-    os.remove(base_path+'/databases/pdb/pdb.fasta.psq')
+    if exists(base_path+'/databases/pdb/pdb.fasta.phr'):
+        os.remove(base_path+'/databases/pdb/pdb.fasta.phr')
+    if exists(base_path+'/databases/pdb/pdb.fasta.pin'):
+        os.remove(base_path+'/databases/pdb/pdb.fasta.pin')
+    if exists(base_path+'/databases/pdb/pdb.fasta.psq'):
+        os.remove(base_path+'/databases/pdb/pdb.fasta.psq')
 
     # Moves the file to the correct directory
     original = 'pdb.fasta'
@@ -76,7 +88,8 @@ def get_fastas_from_uniprots(uniprots: list[str]) -> list[str]:
 
 def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int, successes: dict[str:str],
                          fails_i: dict[str:int], fails_l: dict[str:(int, int)], pdb_list: list[(str, str)] = [],
-                         exclude_list: list[str] = [], alpha_struc_str: str = '', filename: str = '') -> str:
+                         exclude_list: list[str] = [], alpha_struc_str: str = '', filename: str = '',
+                         color_scheme: str = 'Blues') -> str:
     """Given the results of other functions from this package, parses a full alignment file. Returns the file name."""
 
     pdb_indexes = []
@@ -213,22 +226,24 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
                          str(fails_l[species][1]) + '%)\n')
     output.write('\n')
 
+    scheme = color_schemes[color_scheme]
+
     if len(identity_list) > 0:
-        pymol_output.write('color density, resi ' + str(identity_list[0]))
+        pymol_output.write('color ' + scheme[2] + ', resi ' + str(identity_list[0]))
         if len(identity_list) > 1:
             for i in identity_list[1:]:
                 pymol_output.write('+' + str(i))
         pymol_output.write('\n')
 
     if len(two_dot_list) > 0:
-        pymol_output.write('color marine, resi ' + str(two_dot_list[0]))
+        pymol_output.write('color ' + scheme[1] + ', resi ' + str(two_dot_list[0]))
         if len(two_dot_list) > 1:
             for i in two_dot_list[1:]:
                 pymol_output.write('+' + str(i))
         pymol_output.write('\n')
 
     if len(one_dot_list) > 0:
-        pymol_output.write('color lightblue, resi ' + str(one_dot_list[0]))
+        pymol_output.write('color ' + scheme[0] + ', resi ' + str(one_dot_list[0]))
         if len(one_dot_list) > 1:
             for i in one_dot_list[1:]:
                 pymol_output.write('+' + str(i))
