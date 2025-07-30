@@ -173,24 +173,73 @@ Neurospora crassa					5141
 ------
 ARCHEA
 ------
-Pyrococcus furiosus					2261
-Halobacterium salinarum					2242
-Saccharolobus solfataricus				2287
+Archaeoglobus fulgidus		 			2234
+Halobacterium salinarum		 			2242
+Methanosarcina mazei		 			2209
+Picrophilus oshimae		 			46632
+Pyrococcus furiosus		 			2261
+Thermoplasma volcanium		 			50339
+Nanoarchaeum equitans		 			160232
+Caldivirga maquilingensis		 		76887
+Sulfurisphaera tokodaii		 			111955
+Caldivirga maquilingensis		 		76887
+Pyrobaculum aerophilum		 			13773
+Saccharolobus solfataricus		 		2287
+
 
 
 --------
 PROTISTS
 --------
-Dictyostelium discoideum				44689
-Tetrahymena thermophila					5911
-Naegleria gruberi					5762
+Dictyostelium discoideum		 		44689
+Entamoeba histolytica		 			5759
+Guillardia theta		 			55529
+Leishmania major		 			5664
+Naegleria gruberi		 			5762
+Trypanosoma brucei		 			5691
+Emiliania huxleyi		 			2903
+Giardia duodenalis					5741
+Spironucleus salmonicida		 		348837
+Capsaspora owczarzaki		 			192875
+Albugo laibachii		 			653948
+Bigelowiella natans		 			227086
+Phytophthora lateralis		 			129355
+Plasmodium falciparum		 			5833
+Reticulomyxa filosa		 			46433
+Tetrahymena thermophila		 			5911
 
 
 --------
 BACTERIA
 --------
+Bacillus subtilis		 			1423
+Mycobacterium tuberculosis		 		1773
+Mycoplasmoides genitalium				2097
+Staphylococcus aureus		 			1280
 Streptomyces coelicolor		 			1902
-Caulobacter vibrioides					155892
-Aliivibrio fischeri					668
-Azotobacter vinelandii 					354
-Escherichia coli					
+Synechocystis sp. PCC 6714		 		1147
+Agrobacterium radiobacter		 		362
+Aliivibrio fischeri		 			668
+Azotobacter vinelandii		 			354
+Caulobacter vibrioides		 			155892
+Cereibacter sphaeroides		 			1063
+Escherichia coli		 			562
+Myxococcus xanthus		 			34
+
+
+------
+PLANTS
+------
+Arabidopsis thaliana		 			3702
+Brassica rapa		 				3711
+Chara braunii		 				69332
+Chlamydomonas reinhardtii		 		3055
+Helianthus annuus		 			4232
+Nymphaea colorata		 			210225
+Oryza sativa		 				4530
+Physcomitrium patens		 			3218
+Solanum lycopersicum		 			4081
+Triticum aestivum		 			4565
+Vigna angularis		 				3914
+Zea mays		 				4577
+		
