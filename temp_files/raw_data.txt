@@ -16,253 +16,121 @@ Res. 29:2994-3005.
 
 
 
-Database: Meloidogyne enterolobii
-           60,101 sequences; 20,638,675 total letters
+Database: /Users/elliotsicheri/Desktop/archaea/Sulfurisphaera_tokodaii/Sulfuri
+sphaera_tokodaii.fasta
+           2,990 sequences; 770,550 total letters
 
 
 
 Query= 
-Length=691
+Length=454
                                                                       Score     E
 Sequences producing significant alignments:                          (Bits)  Value
 
-  CAD2174720.1 unnamed protein product [Meloidogyne enterolobii]      48.5    2e-05
-  CAD2171174.1 unnamed protein product [Meloidogyne enterolobii]      48.5    2e-05
-  CAD2145591.1 unnamed protein product [Meloidogyne enterolobii]      44.7    3e-04
-  CAD2147798.1 unnamed protein product [Meloidogyne enterolobii]      44.7    3e-04
-  CAD2156179.1 unnamed protein product [Meloidogyne enterolobii]      44.3    4e-04
+  ENSB:__za4U_01-8W_ph pep primary_assembly:ASM1120v1:Chromosome:...  38.9    3e-04
+  ENSB:DkSnc_7CHMOyiTd pep primary_assembly:ASM1120v1:Chromosome:...  25.4    1.8  
+  ENSB:ETTRPDGvK3iXj2w pep primary_assembly:ASM1120v1:Chromosome:...  25.8    4.1  
+  ENSB:YcLK3-90o2mhLvo pep primary_assembly:ASM1120v1:Chromosome:...  25.4    5.1  
+  ENSB:_5XUulHcG3jd4GL pep primary_assembly:ASM1120v1:Chromosome:...  25.4    5.1  
 
 
-> CAD2174720.1 unnamed protein product [Meloidogyne enterolobii]
-Length=712
+> ENSB:__za4U_01-8W_ph pep primary_assembly:ASM1120v1:Chromosome:2234323:2235429:-1 
+gene:ENSB:__za4U_01-8W_ph transcript:ENSB:__za4U_01-8W_ph 
+gene_biotype:protein_coding transcript_biotype:protein_coding 
+gene_symbol:thiI description:tRNA sulfurtransferase
+Length=368
 
- Score = 48.5 bits (114),  Expect = 2e-05, Method: Compositional matrix adjust.
- Identities = 48/200 (24%), Positives = 80/200 (40%), Gaps = 36/200 (18%)
+ Score = 38.9 bits (89),  Expect = 3e-04, Method: Compositional matrix adjust.
+ Identities = 37/158 (23%), Positives = 75/158 (47%), Gaps = 12/158 (8%)
 
-Query  208  LPPEVMLSIFSYLNPQELCRCSQVSMKWSQLTKTGSLWKHLYPVHWARGDWYSGPATELD  267
-            LP E++L +FSYL+   LCRC+QV   W++L+  GS W  +    + R            
-Sbjct  389  LPTELILRVFSYLDITSLCRCAQVCRSWNKLSMDGSNWMDVDLFLFQR------------  436
+Query  199  LVTGSFDNTVACW---EWSSGARTQHFRGHTGAVFSVDYNDELDILVSGSADFTVKVWAL  255
+            L +G FD+ +A W   +  S     +F+   G V      DE+ IL   ++   +KV+ +
+Sbjct  171  LFSGGFDSPIATWMMMKRGSSVTLLNFK-LGGEVHKKIVLDEVKILSEWNSGHKIKVYFV  229
 
-Query  268  TEPDDEWVKNRKDESRAFHEWDEDADIDESEESAEESIAISIAQMEKRLLHGLIHNVLPY  327
-             E     V++       F +       +  +++A  S A     +E+             
-Sbjct  437  -EVKTAVVESLAKRCGNFLKVLSLKGCENVQDNAMRSFATKCPNIER-------------  482
+Query  256  SAGTCLNTLTGHTEWVTKVVLQKCKVKSLLHSPGDYILLSADKYEIKIWPIGREINCKCL  315
+            +    L+ L G   ++  VVL     K +++   + +    + Y +       +++ + +
+Sbjct  230  NGIKVLSALAGVKRYIRVVVL-----KRIMYKTAELLAKKINAYSVTTGESLSQVSSQTM  284
 
-Query  328  VGTSVKTLVLAYSSAVSSKMVRQILELCPNLEHLDLTQ-TDISDSAFDSWSWLGCCQSLR  386
-                   L L     ++      I   C  +  +DL   T ++D A    S    C+ L 
-Sbjct  483  -------LTLTKCKLITDGTCEYIGRYCCKIVMIDLENCTLVTDVAIKFISE--GCKRLE  533
+Query  316  KTLSVSE-DRSICL-QPRLHFDGKYIV-CSSALGLYQW  350
+            K L V+E D +I + +P + FD + I+  S  +G Y++
+Sbjct  285  KNLFVTEYDINIPIFRPLIGFDKEEIIELSRKVGTYEY  322
 
-Query  387  HLDLSGCEKITDVALEKISR  406
-             L++S CE+ITD+ L  I++
-Sbjct  534  ELNISWCEQITDLGLFYIAK  553
 
+> ENSB:DkSnc_7CHMOyiTd pep primary_assembly:ASM1120v1:Chromosome:194421:194678:-1 
+gene:ENSB:DkSnc_7CHMOyiTd transcript:ENSB:DkSnc_7CHMOyiTd 
+gene_biotype:protein_coding transcript_biotype:protein_coding
+Length=85
 
- Score = 43.9 bits (102),  Expect = 5e-04, Method: Compositional matrix adjust.
- Identities = 29/81 (36%), Positives = 41/81 (51%), Gaps = 3/81 (4%)
+ Score = 25.4 bits (54),  Expect = 1.8, Method: Composition-based stats.
+ Identities = 12/41 (29%), Positives = 22/41 (54%), Gaps = 0/41 (0%)
 
-Query  600  LLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYF  659
-            L FLSLS C +ITD  L ++ +  G P L+ + L+GC+ +T AG   L   C  L     
-Sbjct  608  LEFLSLSNCKEITD--LSLVAISQGCPRLKDIELAGCINLTDAGFIQLSKNCHELERMDL  665
+Query  339  IVCSSALGLYQWDFASYDILRVIKTPEIANLALLGFGDIFA  379
+            IV +   G+Y +D  S ++++VIK P   +   + F + F 
+Sbjct  36   IVKADKQGVYIFDKESNNVIKVIKLPTFVDPTSVSFSEKFG  76
 
-Query  660  YYCDNING-PHADTASGCQNL  679
-              C  I     ++  +GC NL
-Sbjct  666  EECLLITDITISNLNNGCPNL  686
 
+> ENSB:ETTRPDGvK3iXj2w pep primary_assembly:ASM1120v1:Chromosome:1751160:1752614:-1 
+gene:ENSB:ETTRPDGvK3iXj2w transcript:ENSB:ETTRPDGvK3iXj2w 
+gene_biotype:protein_coding transcript_biotype:protein_coding
+Length=484
 
- Score = 39.3 bits (90),  Expect = 0.014, Method: Compositional matrix adjust.
- Identities = 20/63 (32%), Positives = 33/63 (52%), Gaps = 2/63 (3%)
+ Score = 25.8 bits (55),  Expect = 4.1, Method: Compositional matrix adjust.
+ Identities = 21/79 (27%), Positives = 37/79 (47%), Gaps = 3/79 (4%)
 
-Query  603  LSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYFYYC  662
-            + L+GC  +TD G   + L      LE ++L  CL IT   + +L + CP+L      +C
-Sbjct  637  IELAGCINLTDAGF--IQLSKNCHELERMDLEECLLITDITISNLNNGCPNLLSLSLSHC  694
+Query  58   KLLPLELSFYLLKWLDPQTLLTCCLVSKQWNKVISACTEV--WQTACKNLGWQI-DDSVQ  114
+            K L L     LLK +DP+ +L      K ++ ++    E   ++ A   +   I +D  +
+Sbjct  281  KDLDLSEKMELLKLIDPEKMLQLAEEYKMYDIIVEYFIETNDYEKAKMYIKRIINEDKRE  340
 
-Query  663  DNI  665
-            +N+
-Sbjct  695  ENL  697
+Query  115  DALHWKKVYLKAILRMKQL  133
+            + LH    YL  IL+ ++L
+Sbjct  341  EVLHIISNYLSFILQDREL  359
 
 
- Score = 33.5 bits (75),  Expect = 0.85, Method: Compositional matrix adjust.
- Identities = 21/63 (33%), Positives = 27/63 (43%), Gaps = 2/63 (3%)
+> ENSB:YcLK3-90o2mhLvo pep primary_assembly:ASM1120v1:Chromosome:245891:247693:-1 
+gene:ENSB:YcLK3-90o2mhLvo transcript:ENSB:YcLK3-90o2mhLvo 
+gene_biotype:protein_coding transcript_biotype:protein_coding 
+gene_symbol:lig description:DNA ligase
+Length=600
 
-Query  603  LSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYFYYC  662
-            LSL  C  + D  +    +    P LE L+LS C  IT   L  +   CP L D     C
-Sbjct  585  LSLHSCPNVLDETIN--DIARHCPRLEFLSLSNCKEITDLSLVAISQGCPRLKDIELAGC  642
+ Score = 25.4 bits (54),  Expect = 5.1, Method: Compositional matrix adjust.
+ Identities = 17/60 (28%), Positives = 28/60 (47%), Gaps = 8/60 (13%)
 
-Query  663  DNI  665
-             N+
-Sbjct  643  INL  645
+Query  79   TCCLVSKQWNKVISACTEVWQTACKNLGWQIDDSVQDALHWKKVY--LKAILRMKQLEDH  136
+            TCC        ++S    +     + + W+ D S++DA   K++Y   K  LR K+ E H
+Sbjct  543  TCC------KDMVSKGAGLSVRFPRFIRWRDDKSIEDATTPKEIYEMYKMKLRKKEEEQH  596
 
 
- Score = 31.2 bits (69),  Expect = 4.1, Method: Compositional matrix adjust.
- Identities = 21/76 (28%), Positives = 38/76 (50%), Gaps = 3/76 (4%)
+> ENSB:_5XUulHcG3jd4GL pep primary_assembly:ASM1120v1:Chromosome:1705459:1706541:1 
+gene:ENSB:_5XUulHcG3jd4GL transcript:ENSB:_5XUulHcG3jd4GL 
+gene_biotype:protein_coding transcript_biotype:protein_coding 
+gene_symbol:tdh description:L-threonine 
+3-dehydrogenase
+Length=360
 
-Query  332  VKTLVLAYSSAVSSKMVRQILELCPNLEHLDLTQ-TDISDSAFDSWSWLGCCQSLRHLDL  390
-            ++ L L     V  + +  I   CP LE L L+   +I+D +  + S    C  L+ ++L
-Sbjct  582  LRRLSLHSCPNVLDETINDIARHCPRLEFLSLSNCKEITDLSLVAISQ--GCPRLKDIEL  639
+ Score = 25.4 bits (54),  Expect = 5.1, Method: Compositional matrix adjust.
+ Identities = 15/47 (32%), Positives = 19/47 (40%), Gaps = 2/47 (4%)
 
-Query  391  SGCEKITDVALEKISR  406
-            +GC  +TD    ++S+
-Sbjct  640  AGCINLTDAGFIQLSK  655
-
-
- Score = 31.2 bits (69),  Expect = 4.2, Method: Compositional matrix adjust.
- Identities = 16/44 (36%), Positives = 22/44 (50%), Gaps = 2/44 (5%)
-
-Query  597  GRVLLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTIT  640
-            G  L  LSL GC  + D+ +R  +     P +E L L+ C  IT
-Sbjct  451  GNFLKVLSLKGCENVQDNAMR--SFATKCPNIERLTLTKCKLIT  492
-
-
- Score = 30.4 bits (67),  Expect = 6.9, Method: Compositional matrix adjust.
- Identities = 19/66 (29%), Positives = 32/66 (48%), Gaps = 2/66 (3%)
-
-Query  600  LLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYF  659
-            ++ + L  C  +TD  ++ ++   G   LE LN+S C  IT  GL  +   C +L   + 
-Sbjct  506  IVMIDLENCTLVTDVAIKFIS--EGCKRLEELNISWCEQITDLGLFYIAKNCNNLKTLFC  563
-
-Query  660  YYCDNI  665
-               +NI
-Sbjct  564  KGLENI  569
-
-
-> CAD2171174.1 unnamed protein product [Meloidogyne enterolobii]
-Length=800
-
- Score = 48.5 bits (114),  Expect = 2e-05, Method: Compositional matrix adjust.
- Identities = 48/200 (24%), Positives = 80/200 (40%), Gaps = 36/200 (18%)
-
-Query  208  LPPEVMLSIFSYLNPQELCRCSQVSMKWSQLTKTGSLWKHLYPVHWARGDWYSGPATELD  267
-            LP E++L +FSYL+   LCRC+QV   W++L+  GS W  +    + R            
-Sbjct  396  LPTELILRVFSYLDITSLCRCAQVCRSWNKLSMDGSNWMDVDLFLFQR------------  443
-
-Query  268  TEPDDEWVKNRKDESRAFHEWDEDADIDESEESAEESIAISIAQMEKRLLHGLIHNVLPY  327
-             E     V++       F +       +  +++A  S A     +E+             
-Sbjct  444  -EVKTAVVESLAKRCGNFLKVLSLKGCENVQDNAMRSFATKCPNIER-------------  489
-
-Query  328  VGTSVKTLVLAYSSAVSSKMVRQILELCPNLEHLDLTQ-TDISDSAFDSWSWLGCCQSLR  386
-                   L L     ++      I   C  +  +DL   T ++D A    S    C+ L 
-Sbjct  490  -------LTLTKCKLITDGTCEYIGRYCCKIVMIDLENCTLVTDVAIKFISE--GCKRLE  540
-
-Query  387  HLDLSGCEKITDVALEKISR  406
-             L++S CE+ITD+ L  I++
-Sbjct  541  ELNISWCEQITDLGLFYIAK  560
-
-
- Score = 43.9 bits (102),  Expect = 5e-04, Method: Compositional matrix adjust.
- Identities = 29/81 (36%), Positives = 41/81 (51%), Gaps = 3/81 (4%)
-
-Query  600  LLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYF  659
-            L FLSLS C +ITD  L ++ +  G P L+ + L+GC+ +T AG   L   C  L     
-Sbjct  615  LEFLSLSNCKEITD--LSLVAISQGCPRLKDIELAGCINLTDAGFIQLSKNCHELERMDL  672
-
-Query  660  YYCDNING-PHADTASGCQNL  679
-              C  I     ++  +GC NL
-Sbjct  673  EECLLITDITISNLNNGCPNL  693
-
-
- Score = 39.3 bits (90),  Expect = 0.014, Method: Compositional matrix adjust.
- Identities = 20/63 (32%), Positives = 33/63 (52%), Gaps = 2/63 (3%)
-
-Query  603  LSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYFYYC  662
-            + L+GC  +TD G   + L      LE ++L  CL IT   + +L + CP+L      +C
-Sbjct  644  IELAGCINLTDAGF--IQLSKNCHELERMDLEECLLITDITISNLNNGCPNLLSLSLSHC  701
-
-Query  663  DNI  665
-            +N+
-Sbjct  702  ENL  704
-
-
- Score = 33.5 bits (75),  Expect = 0.79, Method: Compositional matrix adjust.
- Identities = 21/63 (33%), Positives = 27/63 (43%), Gaps = 2/63 (3%)
-
-Query  603  LSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYFYYC  662
-            LSL  C  + D  +    +    P LE L+LS C  IT   L  +   CP L D     C
-Sbjct  592  LSLHSCPNVLDETIN--DIARHCPRLEFLSLSNCKEITDLSLVAISQGCPRLKDIELAGC  649
-
-Query  663  DNI  665
-             N+
-Sbjct  650  INL  652
-
-
- Score = 31.2 bits (69),  Expect = 3.8, Method: Compositional matrix adjust.
- Identities = 16/44 (36%), Positives = 22/44 (50%), Gaps = 2/44 (5%)
-
-Query  597  GRVLLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTIT  640
-            G  L  LSL GC  + D+ +R  +     P +E L L+ C  IT
-Sbjct  458  GNFLKVLSLKGCENVQDNAMR--SFATKCPNIERLTLTKCKLIT  499
-
-
- Score = 30.8 bits (68),  Expect = 5.0, Method: Compositional matrix adjust.
- Identities = 21/76 (28%), Positives = 38/76 (50%), Gaps = 3/76 (4%)
-
-Query  332  VKTLVLAYSSAVSSKMVRQILELCPNLEHLDLTQ-TDISDSAFDSWSWLGCCQSLRHLDL  390
-            ++ L L     V  + +  I   CP LE L L+   +I+D +  + S    C  L+ ++L
-Sbjct  589  LRRLSLHSCPNVLDETINDIARHCPRLEFLSLSNCKEITDLSLVAISQ--GCPRLKDIEL  646
-
-Query  391  SGCEKITDVALEKISR  406
-            +GC  +TD    ++S+
-Sbjct  647  AGCINLTDAGFIQLSK  662
-
-
- Score = 30.4 bits (67),  Expect = 7.2, Method: Compositional matrix adjust.
- Identities = 19/66 (29%), Positives = 32/66 (48%), Gaps = 2/66 (3%)
-
-Query  600  LLFLSLSGCYQITDHGLRVLTLGGGLPYLEHLNLSGCLTITGAGLQDLVSACPSLNDEYF  659
-            ++ + L  C  +TD  ++ ++   G   LE LN+S C  IT  GL  +   C +L   + 
-Sbjct  513  IVMIDLENCTLVTDVAIKFIS--EGCKRLEELNISWCEQITDLGLFYIAKNCNNLKTLFC  570
-
-Query  660  YYCDNI  665
-               +NI
-Sbjct  571  KGLENI  576
-
-
-> CAD2145591.1 unnamed protein product [Meloidogyne enterolobii]
-Length=882
-
- Score = 44.7 bits (104),  Expect = 3e-04, Method: Compositional matrix adjust.
- Identities = 17/45 (38%), Positives = 31/45 (69%), Gaps = 0/45 (0%)
-
-Query  205  ITHLPPEVMLSIFSYLNPQELCRCSQVSMKWSQLTKTGSLWKHLY  249
-            I ++P E++++IF+YL   +L RC  VS ++++++    LWK LY
-Sbjct  86   IENIPDELLITIFTYLVEGDLGRCGAVSKRFNRISNDFGLWKRLY  130
-
-
-> CAD2147798.1 unnamed protein product [Meloidogyne enterolobii]
-Length=955
-
- Score = 44.7 bits (104),  Expect = 3e-04, Method: Compositional matrix adjust.
- Identities = 17/45 (38%), Positives = 31/45 (69%), Gaps = 0/45 (0%)
-
-Query  205  ITHLPPEVMLSIFSYLNPQELCRCSQVSMKWSQLTKTGSLWKHLY  249
-            I ++P E++++IF+YL   +L RC  VS ++++++    LWK LY
-Sbjct  163  IDNIPDELLITIFTYLVEGDLGRCGAVSKRFNRISNDCGLWKRLY  207
-
-
-> CAD2156179.1 unnamed protein product [Meloidogyne enterolobii]
-Length=957
-
- Score = 44.3 bits (103),  Expect = 4e-04, Method: Compositional matrix adjust.
- Identities = 17/45 (38%), Positives = 31/45 (69%), Gaps = 0/45 (0%)
-
-Query  205  ITHLPPEVMLSIFSYLNPQELCRCSQVSMKWSQLTKTGSLWKHLY  249
-            I ++P E++++IF+YL   +L RC  VS ++++++    LWK LY
-Sbjct  163  IENIPDELLITIFTYLVEGDLGRCGAVSKRFNRISNDCGLWKRLY  207
+Query  224  GHTGAVFSVDYNDELDILVSGSADFTVKVWALSAGTCLNTLTGHTEW  270
+            GH G     +  D +  L  G  DF V V     G CLN   G  ++
+Sbjct  65   GHEGLGMVEEVGDGVKYLKKG--DFVVPVVRRGCGVCLNCRIGRQDF  109
 
 
 
 Lambda      K        H        a         alpha
-   0.317    0.132    0.405    0.792     4.96 
+   0.322    0.136    0.433    0.792     4.96 
 
 Gapped
 Lambda      K        H        a         alpha    sigma
    0.267   0.0410    0.140     1.90     42.6     43.6 
 
-Effective search space used: 8199021612
+Effective search space used: 193802980
 
 
-  Database: Meloidogyne enterolobii
-    Posted date:  Aug 18, 2022  1:31 PM
-  Number of letters in database: 20,638,675
-  Number of sequences in database:  60,101
+  Database: /Users/elliotsicheri/Desktop/archaea/Sulfurisphaera_tokodaii/Sulfuri
+sphaera_tokodaii.fasta
+    Posted date:  Jul 30, 2025  11:04 AM
+  Number of letters in database: 770,550
+  Number of sequences in database:  2,990
 
 
 
