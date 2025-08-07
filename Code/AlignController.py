@@ -168,8 +168,8 @@ class AlignController:
                                                               filename, color_scheme)
 
             # Copy over structure files, if they exist
-            if exists(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".pdb"):
-                shutil.copy(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".pdb",
+            if exists(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".cif"):
+                shutil.copy(base_path+'/downloads/AF_structures/AF-' + self.uniprot + ".cif",
                             base_path+'/output/' + output_name)
 
             for code in self.pdb_codes:
