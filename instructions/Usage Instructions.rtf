@@ -12,18 +12,28 @@
 ~ USAGE INSTRUCTIONS ~\
 ----------------------
 \f1\b0 \
-\
 
-\f0\b\fs26 \ul Understanding the Menu
+\f0\b \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 To run the program, run the main.py file included in the package.
+\f0\b \
+
+\f1\b0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs26 \cf0 \ul \ulc0 Understanding the Menu
 \f1\b0\fs24 \ulnone \
 
 \f0\b \
 \'93Protein sequence\'94 box:
-\f1\b0  This is where you enter the sequence you want to search.\
+\f1\b0  This is where you enter the sequence you want to search. To search sequences in bulk, separate sequences with whitespace (space or newline)\
 \
 
 \f0\b \'93UniProt ID\'94 box:
-\f1\b0  If an AlphaFold prediction exists for your protein, you can enter the protein\'92s UniProt code here and the program will retrieve it and add its structure to the final alignment.\
+\f1\b0  Alternatively, instead of entering a protein sequence, you can enter the UniProt ID of the protein to be analyzed. The sequence will be downloaded from UniProt for analysis. If an AlphaFold prediction for the protein is available from UniProt, it will be downloaded and included in the structural alignment. 
+\f0\b Any input in this box overrides all input in the protein sequence box.
+\f1\b0 \
 \
 
 \f0\b \'93Search PDB database?\'94 checkbox:
@@ -31,7 +41,11 @@
 \
 
 \f0\b \'93% Identity threshold\'94 slider:
-\f1\b0  You can adjust this slider to set the threshold for which species are included in the final result. Any species whose closest sequence has % identity lower than the threshold are excluded from the final alignment.\
+\f1\b0  You can adjust this slider to set the threshold for which species are included in the final result based on their similarity to the query. Any species whose closest sequence has % identity to the query that is lower than the threshold are excluded from the final alignment.\
+\
+
+\f0\b \'93% Length variability\'94 slider:
+\f1\b0  You can adjust this slider to set the threshold for which sequences are filtered based on length difference to the query. The threshold applies to % length difference in both directions; e.g. a length threshold of 40% will filter out sequences that are less than 60% or greater than 140% of the length of the query.\
 \
 
 \f0\b \'93Output file name\'94 box:
@@ -45,12 +59,16 @@
 \f0\b \'93Taxonomy Settings\'94 menu:
 \f1\b0  This window allows you to handpick which species you want included in your search. All species in the database are organized by taxonomy, with checkboxes allowing you to enable or disable species or taxonomic groups. If you want to add a new species, see the database instructions document in the instructions folder.\
 \
+
+\f0\b \'93Color Settings\'94 menu:
+\f1\b0  This window allows you to select a color scheme for the 3D PyMOL projection.\
+\
 \
 
 \f0\b\fs26 \ul Interpreting Your Results
 \f1\b0\fs24 \ulnone \
 \
-Each output file contains a sequence alignment of all sequences found within the identity threshold set by the user.\
+Each output file contains a sequence alignment of all sequences found within the identity and length thresholds set by the user.\
 \
 To the left of each sequence is the name of the species the sequence belongs to, followed by % identity to the query sequence. \
 \
@@ -75,7 +93,7 @@ clustalw conservation scores are as follows:\
 {\listtext	\uc0\u8226 	}\'91 \'91 - this residue is not conserved\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
-At the bottom of the alignment, accession codes for all aligned species and the % identity of all species below the identity threshold are listed.\
+At the bottom of the alignment, accession codes for all aligned species and a list of all species outside the user-set thresholds are listed.\
 \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
@@ -83,9 +101,11 @@ At the bottom of the alignment, accession codes for all aligned species and the 
 \f0\b\fs26 \cf0 \ul Using the PyMOL output file
 \f1\b0\fs24 \ulnone \
 \
-Along with each alignment, the program creates a file by the same name + \'91_pymol\'92 in the folder called \'93pymol output\'94. This is a PyMOL command file that will project the conservation scores from the corresponding alignment onto a 3D structure in PyMOL.\
+Along with each alignment, the program creates a file labelled with \'91_pymol\'92 in the file name. This is a PyMOL command file that will project the conservation scores from the corresponding alignment onto a 3D structure in PyMOL.\
 \
-To use the file, first open a PDB model of the protein in PyMOL. An AlphaFold structure prediction usually works best, but if a full-sequence solved structure exists, that should work as well. Just ensure that there are no unmodelled sections or extraneous tags, and that the sequence starts counting at 1. \
+To use the file, first open a PDB model of the protein in PyMOL. An AlphaFold structure prediction or a 
+\f0\b full-sequence
+\f1\b0  solved structure from the PDB will work. Be warned that any added or removed residues in the .pdb file can offset the color alignment. Thus for solved structure files from the PDB, it is good to ensure that there are no unmodelled sections or extraneous tags, and that the sequence starts counting at 1.\
 \
 Then, in the command bar, type @, then drag the output file into the command bar. This should fill in the file path to the command file. Then press enter, and the commands will execute to colour the model. \
 \

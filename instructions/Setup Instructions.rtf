@@ -10,37 +10,24 @@
 ----------------------
 \f1\b0 \
 \
-STEP 1: Download the folder containing the databases and file directories\
+STEP 1: Installing required python packages\
 \
-If you\'92re reading this, you\'92ve most likely already done this! Good job!
-\f0\b \
+The program utilizes several python packages that must be installed. \
 \
-
-\f1\b0 Make sure the folder (which should be called ProteoSync) is on your 
-\f0\b desktop
-\f1\b0 . The program doesn\'92t work if it can\'92t find the folder on the desktop. I couldn\'92t find any good way around this, unfortunately.\
+This can be done using the included requirements file. In the console, cd to the ProteoSync directory and run:\
+	pip install -r requirements.txt\
 \
 STEP 2: Installing external executables with Anaconda\
 \
-The program calls on a few external programs, such as BLAST and clustalw, which need to be installed separately. This should be done using a free program called Anaconda.\
+The program calls on a few external programs, such as BLAST and clustalw, which need to be installed separately. This should be done using a free program called Conda.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li861\fi-862\pardirnatural\partightenfactor0
 \cf0     - First, install Conda at https://www.anaconda.com/products/distribution\
-\pard\tx0\tx720\tx1440\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1148\fi-6\pardirnatural\partightenfactor0
-
-\f0\b \cf0 \ul \ulc0 NOTE:
-\f1\b0 \ulnone  Even if you have Apple silicon, install the 
-\f0\b Intel
-\f1\b0  version of Anaconda. Some of the dependencies are only available for the Intel version. This works even on apple silicon, we tested it!\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li874\fi-875\pardirnatural\partightenfactor0
 \cf0     - Then, open the terminal and install the packages by running the following lines:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0         conda install -c salilab dssp\
+\cf0         conda install -c conda-forge dssp\
         conda install -c bioconda clustalw\
-        conda install -c bioconda blast\
-
+        conda install -c bioconda blast
 \f0\b \
-\
-Then you\'92re good to go!\
-
-\f1\b0 Just double-click the executable to run the program! Sometimes it takes a couple seconds to open.}
+}
