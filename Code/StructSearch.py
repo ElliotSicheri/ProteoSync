@@ -5,18 +5,21 @@ structures
 
 from Bio.Align.Applications import ClustalwCommandline
 from Bio.Blast.Applications import NcbiblastpCommandline
-from Bio.PDB import PDBList, DSSP, PDBParser
+from Bio.PDB import PDBList, DSSP, PDBParser, MMCIFParser
 from os.path import exists
 from pathlib import Path
 import requests
+import os
 
-base_path = 'Desktop/ProteoSync'
+base_path = '.'
+
+os.environ['LIBCIFPP_DATA_DIR'] = os.path.expanduser('~/anaconda3/share/libcifpp')
 
 res_dict = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K', 'ILE': 'I', 'PRO': 'P', 'THR': 'T',
             'PHE': 'F', 'ASN': 'N', 'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W', 'ALA': 'A',
             'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M', 'MSE': 'M'}
 
-dssp_dict = {'H': 'A', 'B': 'B', 'E': 'B', 'I': '-', 'S': '-', 'G': '-', 'T': '-', 'C': '-', '-': '-'}
+dssp_dict = {'H': 'A', 'B': 'B', 'E': 'B', 'I': '-', 'S': '-', 'G': '-', 'T': '-', 'C': '-', '-': '-', 'P': '-'}
 
 
 def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int) = (0, 0)) -> list[(str, str)]:
@@ -37,7 +40,6 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
         structure of that chain aligned to the query sequence.
     """
 
-
     with open(seq_file, 'r') as query_file:
         query = query_file.read()
         query_file.close()
@@ -46,7 +48,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
     if rec_count >= 2:
         return []
 
-    with open('Desktop/ProteoSync/temp_files/sub_query.txt', 'w') as subfile:
+    with open(base_path + '/temp_files/sub_query.txt', 'w') as subfile:
         if not search_range == (0, 0):
             sub_query = query[search_range[0] - 1:search_range[1] - 1]
             subfile.write(sub_query)
@@ -91,6 +93,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
     for pdb_code in pdb_codes:
         code, chain = pdb_code
         # Downloads the pdb file, if it doesn't exist already
+
         if not exists(base_path+'/downloads/pdb_structures/pdb' + code + '.pdb'):
             pdb_list = PDBList(server='http://files.pdbj.org')
             filename = pdb_list.retrieve_pdb_file(pdb_code=code, pdir=base_path+'/downloads/pdb_structures',
@@ -105,6 +108,21 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
                       '.pdb format. Skipping this structure...')
                 continue
         filename = base_path+'/downloads/pdb_structures/pdb' + code + '.pdb'
+
+        if not exists(base_path+'/downloads/pdb_structures/' + code + '.cif'):
+            pdb_list = PDBList(server='http://files.pdbj.org')
+            cif_filename = pdb_list.retrieve_pdb_file(pdb_code=code, pdir=base_path+'/downloads/pdb_structures',
+                                                  file_format='mmCif')
+            # Some large structures are not available in .pdb format. These structures cause an error when trying to
+            # move the file, upon which the current structure will be skipped.
+            try:
+                path = Path(cif_filename)
+                path.rename(path.with_suffix('.cif'))
+            except (Exception, ):
+                print('An error occured while downloading this structure. It is possible that it is not available in '
+                      '.pdb format. Skipping this structure...')
+                continue
+        cif_filename = base_path+'/downloads/pdb_structures/' + code + '.cif'
 
         # Locates unmodelled areas in the PDB file and extracts the protein sequence. If there are any sections added to
         # the front of the sequence with position labelled as <= the chain start, count the earliest residue index, so
@@ -178,15 +196,15 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
             unmodelled_seq = seq_str
 
         # Parses the PDB file to get a structure
-        parser = PDBParser(QUIET=True)
-        structure = parser.get_structure(pdb_code, filename)
+        parser = MMCIFParser(QUIET=True)
+        structure = parser.get_structure(pdb_code, cif_filename)
         model = structure[0]
 
         # Runs DSSP on the structure model to get the secondary structure.
         # Some structures cannot be properly processed by DSSP, such as structures with their residues stripped. This
         # causes an error, upon which the current structure is skipped.
         try:
-            dssp = DSSP(model, filename)
+            dssp = DSSP(model, cif_filename)
         except (Exception, ):
             print('An error occurred while processing this structure\'s pdb file. Skipping this structure...\n')
             continue
@@ -267,17 +285,17 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
         query = query_file.read()
         query_file.close()
 
-    filename = base_path+'/downloads/AF_structures/AF-' + uniprot_id + ".pdb"
+    filename = base_path+'/downloads/AF_structures/AF-' + uniprot_id + ".cif"
 
-    if not exists(base_path+'/downloads/AF_structures/AF-' + uniprot_id + '.pdb'):
+    if not exists(base_path+'/downloads/AF_structures/AF-' + uniprot_id + '.cif'):
         # Downloads the alphafold file
-        link_pattern = 'http://alphafold.ebi.ac.uk/files/AF-{}-F1-model_v3.pdb'
+        link_pattern = 'http://alphafold.ebi.ac.uk/files/AF-{}-F1-model_v3.cif'
         url = link_pattern.format(uniprot_id)
         response = requests.get(url)
 
         with open(filename, 'w') as pdb_file:
             for line in response.iter_lines():
-                pdb_file.write(str(line)[2:len(line) - 2] + '\n')
+                pdb_file.write(line.decode('utf-8') + '\n')
             pdb_file.close()
 
     with open(filename, 'r') as pdb_file:
@@ -287,21 +305,20 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
     seq_str = ''  # Protein sequence
     seq_start = False  # Whether the sequence section of the file has been reached
     for line in lines:
-        if 'SEQRES' in line:
+        if 'pdbx_seq_one_letter_code' in line:
             # Pulls protein sequence
             seq_start = True
-            seq_line = line[19:].rstrip()
-            i = 0
-            while i < len(seq_line):
-                res = seq_line[i:i + 3]
-                seq_str += res_dict[res]
-                i += 4
         elif seq_start:
-            # If past the sequence section of the file, break the loop.
-            break
+            if line == ';' or line == ';\n':
+                # If past the sequence section of the file, break the loop.
+                break
+            else:
+                seq_str += line.rstrip()
+
+    seq_str.replace(';', '')
 
     # Parses the PDB file to get a structure
-    parser = PDBParser(QUIET=True)
+    parser = MMCIFParser(QUIET=True)
     structure = parser.get_structure('alpha', filename)
     model = structure[0]
 
