@@ -5,7 +5,7 @@ Contains functions for performing BLAST searches against species database sets
 from Bio.Blast.Applications import NcbiblastpCommandline
 import os
 
-base_path = 'Desktop/ProteoSync'
+base_path = '.'
 
 
 def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list: list[str]) \

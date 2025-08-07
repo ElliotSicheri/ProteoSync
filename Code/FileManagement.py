@@ -6,7 +6,7 @@ import os
 import shutil
 import requests
 
-base_path = 'Desktop/ProteoSync'
+base_path = '.'
 
 color_schemes = {
     'Blues': ['lightblue', 'marine', 'density'],

@@ -2,12 +2,12 @@
 ProteoSync GUI classes.
 """
 
-import AlignController
-import TaxFileManager
+import Code.AlignController as AlignController
+import Code.TaxFileManager as TaxFileManager
 import tkinter
 from datetime import date
 
-base_path = 'Desktop/ProteoSync'
+base_path = '.'
 
 color_schemes = {
     'Blues': ['#bfbfff', '#0080ff', '#191999'],

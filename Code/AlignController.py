@@ -2,12 +2,11 @@
 ProteoSync controller class.
 """
 
-import AlignGUI
-import TaxFileManager
-import FileManagement
-import BlastSearch
-import StructSearch
-import ClustalAlignment
+import Code.TaxFileManager as TaxFileManager
+import Code.FileManagement as FileManagement
+import Code.BlastSearch as BlastSearch
+import Code.StructSearch as StructSearch
+import Code.ClustalAlignment as ClustalAlignment
 import traceback
 import shutil
 
@@ -15,7 +14,7 @@ import os
 from os.path import exists
 import certifi
 os.environ["SSL_CERT_FILE"] = certifi.where()
-base_path = 'Desktop/ProteoSync'
+base_path = '.'
 
 
 class AlignController:
@@ -205,8 +204,3 @@ class AlignController:
         self.uniprot = ''
         self.struc_list = []
         self.exclude_list = []
-
-
-if __name__ == "__main__":
-    cont = AlignController()
-    gui = AlignGUI.AlignGUI(cont)
