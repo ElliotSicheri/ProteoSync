@@ -23,7 +23,8 @@ class AlignController:
         self.successes = {}
         self.fails_i = {}
         self.fails_l = {}
-        self.i_threshold = 0
+        self.low_threshold = 0
+        self.high_threshold = 100
         self.len_threshold = 0
         self.alignment_file = ''
         self.struct = ''
@@ -52,7 +53,8 @@ class AlignController:
 
         return 0
 
-    def run_blast(self, sequence: str, tax_tree: TaxFileManager.TaxTreeNode, i_threshold: int, len_threshold: int) -> int:
+    def run_blast(self, sequence: str, tax_tree: TaxFileManager.TaxTreeNode, low_threshold: int, high_threshold: int,
+                  len_threshold: int) -> int:
         """
         Runs a blast search with the given sequence against all species databases selected in the given tax tree.
         Stores the results in this object.
@@ -60,7 +62,8 @@ class AlignController:
         Parameters:
             sequence: str, Query sequence to search against
             tax_tree: TaxTreeNode, Root node of the tax tree of databases to search
-            i_threshold: int, % identity threshold for filtering BLAST results
+            low_threshold: int, lower % identity threshold for filtering BLAST results
+            high_threshold: int, upper % identity threshold for filtering BLAST results
             len_threshold: int, % length threshold for filtering BLAST results
 
         Returns:
@@ -82,7 +85,8 @@ class AlignController:
 
         # Runs local BLAST searches on species databases
         try:
-            successes, fails_i, fails_l = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', i_threshold, len_threshold, path_list)
+            successes, fails_i, fails_l = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', low_threshold,
+                                                                   high_threshold, len_threshold, path_list)
         except Exception as error:
             print("Error running BLAST searches:\n")
             traceback.print_exc()
@@ -101,7 +105,8 @@ class AlignController:
         self.successes = successes
         self.fails_i = fails_i
         self.fails_l = fails_l
-        self.i_threshold = i_threshold
+        self.low_threshold = low_threshold
+        self.high_threshold = high_threshold
         self.len_threshold = len_threshold
 
         return 0
@@ -162,7 +167,8 @@ class AlignController:
             Path to output file.
         """
         try:
-            output_name = FileManagement.assemble_output_file(self.alignment_file, self.i_threshold, self.len_threshold,
+            output_name = FileManagement.assemble_output_file(self.alignment_file, self.low_threshold,
+                                                              self.high_threshold, self.len_threshold,
                                                               self.successes, self.fails_i, self.fails_l,
                                                               self.struc_list, self.exclude_list, self.alpha_struct,
                                                               filename, color_scheme)

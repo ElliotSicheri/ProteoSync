@@ -66,9 +66,6 @@ def get_fastas_from_uniprots(uniprots: list[str]) -> list[str]:
             response = requests.get(url)
 
             with open(filepath, 'w') as file:
-                # for line in response.iter_lines():
-                #     file.write(str(line)[2:len(line) + 2] + '\n')
-                # file.close()
                 lines = list(response.iter_lines())
                 if lines:
                     file.write(lines[0].decode('utf-8') + '\n')
@@ -86,7 +83,7 @@ def get_fastas_from_uniprots(uniprots: list[str]) -> list[str]:
     return seq_list
 
 
-def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int, successes: dict[str:str],
+def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold: int, len_threshold: int, successes: dict[str:str],
                          fails_i: dict[str:int], fails_l: dict[str:(int, int)], pdb_list: list[(str, str)] = [],
                          exclude_list: list[str] = [], alpha_struc_str: str = '', filename: str = '',
                          color_scheme: str = 'Blues') -> str:
@@ -143,7 +140,8 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
     no_dot_list = []
 
     # Writes results in output file
-    output.write('% identity threshold: ' + str(threshold) + '\n')
+    output.write('Lower % identity threshold: ' + str(low_threshold) + '\n')
+    output.write('Upper % identity threshold: ' + str(high_threshold) + '\n')
     output.write('% length variability threshold: ' + str(len_threshold) + '\n\n')
 
     if len(exclude_list) > 0:
@@ -159,13 +157,15 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
     highest_score = 0
     comp_seq = ''
     for line in alignment[3:]:
-        if line != '\n' and line[0] != ' ':
-            s = line.find('[') + 1
-            score_str = line[s:s + 3].replace(']', '')
-            score = int(score_str)
-            if score >= highest_score:
-                highest_score = score
-                comp_seq = line[seq_start:seq_end]
+        # if line != '\n' and line[0] != ' ':
+        #     s = line.find('[') + 1
+        #     score_str = line[s:s + 3].replace(']', '')
+        #     score = int(score_str)
+        #     if score >= highest_score:
+        #         highest_score = score
+        #         comp_seq = line[seq_start:seq_end]
+        if 'QUERY_SEQUENCE' in line:
+            comp_seq = line[seq_start:seq_end]
         elif line[0] == ' ':
             conservation = line[seq_start:seq_end]
             for i in range(0, len(comp_seq)):
@@ -184,7 +184,7 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
                     cons_index += 1
 
             if pdb_list != []:
-                for i in range (0, len(pdb_list)):
+                for i in range(0, len(pdb_list)):
                     struct = pdb_list[i]
                     output.write('STRUCTURE [' + struct[0].upper() + ']:' + ' ' * (seq_start - 17))
                     for char in comp_seq:
@@ -214,7 +214,7 @@ def assemble_output_file(alignment_file: str, threshold: int, len_threshold: int
     output.write('\n')
 
     if len(fails_i) > 0:
-        output.write('\nThe following species lack a sufficiently similar protein sequence: \n')
+        output.write('\nThe following species were outside the % identity thresholds: \n')
         for species in fails_i.keys():
             output.write('\t- ' + species.replace('_', ' ') + ' (' + str(fails_i[species]) + '%)\n')
     output.write('\n')

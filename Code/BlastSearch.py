@@ -8,7 +8,7 @@ import os
 base_path = '.'
 
 
-def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list: list[str]) \
+def blast_search(seq_file: str, i_threshold_low: int, i_threshold_high: int, len_threshold: int, path_list: list[str]) \
         -> (dict[str: str], dict[str: int], dict[str: (int, int)]):
     """
     BLAST searches the query sequence from seq_file against a set of BLAST-formatted databases given by path_list.
@@ -17,7 +17,8 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
 
     Parameters:
         seq_file: str, the path to the file that contains the query sequence
-        i_threshold: int, % identity threshold for which BLAST hits are included
+        i_threshold_low: int, lower % identity threshold for which BLAST hits are included
+        i_threshold_high: int, upper % identity threshold for which BLAST hits are included
         len_threshold: int, % length threshold with respect to the length query sequence
         path_list: list[str], list of paths which contain databases to be searched
 
@@ -37,8 +38,12 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
     high_lim = 100 + len_threshold
 
     with open(seq_file) as f:
-        query_len = len(f.read().replace('\n', ''))
+        query_seq = f.read().replace('\n', '')
+        query_len = len(query_seq)
         f.close()
+
+    formatted_results += '> QUERY_SEQUENCE \n'
+    formatted_results += query_seq + '\n'
 
     for path in path_list:
         blast = NcbiblastpCommandline(cmd='blastp', query=seq_file, db=path + '/' + os.path.basename(path) + '.fasta',
@@ -49,7 +54,7 @@ def blast_search(seq_file: str, i_threshold: int, len_threshold: int, path_list:
         species = os.path.basename(path)
         len_score = int((len(sequence) / query_len) * 100)
 
-        if score < i_threshold:
+        if score < i_threshold_low or score > i_threshold_high:
             failed_iden[species] = score
         elif low_lim > len_score or len_score > high_lim:
             failed_len[species] = (score, len_score)

@@ -54,7 +54,7 @@ class AlignGUI:
 
         window = tkinter.Tk()
         window.title('ProteoSync')
-        window.geometry('730x520')
+        window.geometry('730x560')
         window['bg'] = '#363535'
         window.resizable(width=False, height=False)
         self.window = window
@@ -65,16 +65,14 @@ class AlignGUI:
 
         self.color = tkinter.StringVar(value='Blues')
 
-        seq = tkinter.Label(text='Protein sequences:', bg='#363535', fg='white')
-        seq.place(x=10, y=5)
-
+        seq_label = tkinter.Label(text='Protein sequences:', bg='#363535', fg='white')
+        seq_label.place(x=10, y=5)
         seq_entry = tkinter.Text(fg='black', bg='white', width=49, height=11, highlightbackground='#363535')
         seq_entry.place(x=10, y=30)
         self.seq_entry = seq_entry
 
         uniprot_label = tkinter.Label(text='OR UniProt IDs:', bg='#363535', fg='white')
         uniprot_label.place(x=370, y=5)
-
         uniprot_entry = tkinter.Text(fg='black', bg='white', width=49, height=11, highlightbackground='#363535')
         uniprot_entry.place(x=370, y=30)
         self.uniprot_entry = uniprot_entry
@@ -85,32 +83,32 @@ class AlignGUI:
         pdb_check.place(x=10, y=180)
         pdb_check.select()
 
-        thresh_label = tkinter.Label(text='% Identity Threshold:', bg='#363535', fg='white')
-        thresh_label.place(x=10, y=217)
+        high_thresh_label = tkinter.Label(text='Upper % Identity Threshold:', bg='#363535', fg='white')
+        high_thresh_label.place(x=10, y=217)
+        high_threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
+        high_threshold_slider.place(x=210, y=200)
+        high_threshold_slider.set(90)
+        self.high_threshold_slider = high_threshold_slider
 
-        threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
-        threshold_slider.place(x=210, y=200)
-        threshold_slider.set(50)
-        self.threshold_slider = threshold_slider
+        low_thresh_label = tkinter.Label(text='Lower % Identity Threshold:', bg='#363535', fg='white')
+        low_thresh_label.place(x=10, y=257)
+        low_threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
+        low_threshold_slider.place(x=210, y=240)
+        low_threshold_slider.set(50)
+        self.low_threshold_slider = low_threshold_slider
 
-        len_thresh_label = tkinter.Label(text='% Length Difference Threshold:', bg='#363535', fg='white')
-        len_thresh_label.place(x=10, y=257)
-
+        len_thresh_label = tkinter.Label(text='% Length Variability Threshold:', bg='#363535', fg='white')
+        len_thresh_label.place(x=10, y=297)
         len_threshold_slider = tkinter.Scale(from_=0, to=100, orient='horizontal', length=250, bg='#363535', fg='white')
-        len_threshold_slider.place(x=210, y=240)
+        len_threshold_slider.place(x=210, y=280)
         len_threshold_slider.set(50)
         self.len_threshold_slider = len_threshold_slider
 
         output_name_label = tkinter.Label(text='Output file name (optional):', bg='#363535', fg='white')
-        output_name_label.place(x=10, y=290)
-
+        output_name_label.place(x=10, y=330)
         output_name_entry = tkinter.Entry(fg='black', bg='white', width=33, highlightbackground='#363535')
-        output_name_entry.place(x=185, y=290)
+        output_name_entry.place(x=185, y=330)
         self.output_name_entry = output_name_entry
-
-        start_button = tkinter.Button(text='Start!', width=8, height=2, bg='#616161', fg='black',
-                                      highlightbackground='#363535', command=self.run_program)
-        start_button.place(x=10, y=315)
 
         date_file = open(base_path+'/databases/pdb_last_update.txt', 'r')
         last_date_str = date_file.read()
@@ -121,7 +119,6 @@ class AlignGUI:
 
         update_label = tkinter.Label(text='It has been ' + days + ' day(s) since the', bg='#363535', fg='white')
         update_label.place(x=505, y=190)
-
         update_label_2 = tkinter.Label(text='local PDB database has been updated.', bg='#363535', fg='white')
         update_label_2.place(x=470, y=210)
 
@@ -129,18 +126,26 @@ class AlignGUI:
                                 highlightbackground='#363535', command=self.update_database)
         pdb_button.place(x=510, y=240)
 
+        start_button = tkinter.Button(text='Start!', width=8, height=2, bg='#616161', fg='black',
+                                      highlightbackground='#363535', command=self.run_program)
+        start_button.place(x=10, y=355)
+
         settings_button = tkinter.Button(text='Color settings', width=10, height=2, bg='#616161', fg='black',
                                          highlightbackground='#363535', command=self.open_color_window)
-        settings_button.place(x=130, y=315)
+        settings_button.place(x=130, y=355)
 
         output_log_label = tkinter.Label(text='Output Log:', bg='#363535', fg='white')
-        output_log_label.place(x=10, y=356)
-
+        output_log_label.place(x=10, y=396)
         output_field = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
-        output_field.place(x=10, y=375)
+        output_field.place(x=10, y=415)
         self.output_field = output_field
 
-        self.file_tree = TaxFileManager.make_tax_tree(base_path+'/databases/species')
+        self.open_tax_window()
+
+        window.mainloop()
+
+    def open_tax_window(self):
+        self.file_tree = TaxFileManager.make_tax_tree(base_path + '/databases/species')
         height = self.file_tree.get_size()
 
         tax_window = tkinter.Toplevel(self.window)
@@ -182,12 +187,8 @@ class AlignGUI:
         self.frame.configure(width=width)
         canvas.create_window(0, 0, anchor='nw', window=frame)
 
-        tax_window.geometry(str(width+scrollbar.winfo_width()+10) + "x" + str(tax_window.winfo_height()))
+        tax_window.geometry(str(width + scrollbar.winfo_width() + 10) + "x" + str(tax_window.winfo_height()))
         tax_window.update()
-
-        # self.open_color_window()
-
-        window.mainloop()
 
     def open_color_window(self):
         if self.color_window is not None and self.color_window.winfo_exists():
@@ -221,7 +222,8 @@ class AlignGUI:
 
         seq_str = self.get_seq()
         uni_str = self.get_uniprot()
-        threshold = self.get_threshold()
+        low_threshold = self.get_low_threshold()
+        high_threshold = self.get_high_threshold()
         len_threshold = self.get_len_threshold()
         color_scheme = self.get_color_scheme()
 
@@ -256,16 +258,16 @@ class AlignGUI:
                 print("Starting run " + run_name)
 
             if uni_str != '\n':
-                self._run_program(seq_lst[i], uni_lst[i], threshold, len_threshold, run_name, color_scheme)
+                self._run_program(seq_lst[i], uni_lst[i], low_threshold, high_threshold, len_threshold, run_name, color_scheme)
             else:
-                self._run_program(seq_lst[i], '', threshold, len_threshold, run_name, color_scheme)
+                self._run_program(seq_lst[i], '', low_threshold, high_threshold, len_threshold, run_name, color_scheme)
 
-    def _run_program(self, seq_str: str, uni_str: str, threshold: int, len_threshold: int, run_name: str,
+    def _run_program(self, seq_str: str, uni_str: str, low_threshold: int, high_threshold: int, len_threshold: int, run_name: str,
                      color_scheme: str) -> None:
         self.aln_cont.clear()
 
         self.printout("Running BLAST searches...\n")
-        error = self.aln_cont.run_blast(seq_str, self.file_tree, threshold, len_threshold)
+        error = self.aln_cont.run_blast(seq_str, self.file_tree, low_threshold, high_threshold, len_threshold)
         if error == 1:
             self.printout("1 or fewer sufficiently similar sequences were found, no alignment could be made.\n")
             return
@@ -345,9 +347,13 @@ class AlignGUI:
         seq_str = self.seq_entry.get(1.0, tkinter.END)
         return seq_str.replace('\n', '')
 
-    def get_threshold(self) -> int:
+    def get_low_threshold(self) -> int:
         """Return the current setting of the threshold slider."""
-        return int(self.threshold_slider.get())
+        return int(self.low_threshold_slider.get())
+
+    def get_high_threshold(self) -> int:
+        """Return the current setting of the threshold slider."""
+        return int(self.high_threshold_slider.get())
 
     def get_len_threshold(self) -> int:
         """Return the current setting of the length threshold slider."""
