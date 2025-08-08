@@ -89,6 +89,7 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
                          color_scheme: str = 'Blues') -> str:
     """Given the results of other functions from this package, parses a full alignment file. Returns the file name."""
 
+    global pymol_output_i
     pdb_indexes = []
     for i in range(0, len(pdb_list)):
         pdb_indexes.append(0)
@@ -107,6 +108,7 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
         pymol_output_name = current_date + '_' + current_time + '_Pymol.txt'
         output = open(base_path+'/output/' + filename + '/' + output_name, 'w')
         pymol_output = open(base_path+'/output/' + filename + '/' + pymol_output_name, 'w')
+        pymol_output_i = open(base_path + '/output/' + filename + '/' + filename + '_pymol_identity.txt', 'w')
     else:
         if exists(base_path+'/output/' + filename):
             ext = 1
@@ -120,6 +122,7 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
         pymol_output_name = filename + '_Pymol.txt'
         output = open(base_path+'/output/' + filename + '/' + output_name, 'w')
         pymol_output = open(base_path+'/output/' + filename + '/' + pymol_output_name, 'w')
+        pymol_output_i = open(base_path + '/output/' + filename + '/' + filename + '_pymol_identity.txt', 'w')
 
     with open(alignment_file, 'r') as file:
         alignment = file.readlines()
@@ -138,6 +141,7 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
     two_dot_list = []
     one_dot_list = []
     no_dot_list = []
+    i_list = []
 
     # Writes results in output file
     output.write('Lower % identity threshold: ' + str(low_threshold) + '\n')
@@ -151,22 +155,24 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
 
     output.write('\n')
 
+    seq_count = 0
     cons_index = 0
-    struc_index = 0
     a_struc_index = 0
-    highest_score = 0
     comp_seq = ''
+    i_counts = [dict() for _ in range(seq_end - seq_start)]
     for line in alignment[3:]:
-        # if line != '\n' and line[0] != ' ':
-        #     s = line.find('[') + 1
-        #     score_str = line[s:s + 3].replace(']', '')
-        #     score = int(score_str)
-        #     if score >= highest_score:
-        #         highest_score = score
-        #         comp_seq = line[seq_start:seq_end]
         if 'QUERY_SEQUENCE' in line:
             comp_seq = line[seq_start:seq_end]
-        elif line[0] == ' ':
+        elif line[0] != ' ':
+            seq_count += 1
+            seq = line[seq_start:seq_end]
+            for i in range(0, len(seq)):
+                if seq[i] not in i_counts[i]:
+                    i_counts[i][seq[i]] = 1
+                else:
+                    i_counts[i][seq[i]] += 1
+        else:
+            # End of alignment section, add residue indices to clustalw score lists
             conservation = line[seq_start:seq_end]
             for i in range(0, len(comp_seq)):
                 if comp_seq[i] == ' ':
@@ -183,7 +189,15 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
                             no_dot_list.append(cons_index + 1)
                     cons_index += 1
 
-            if pdb_list != []:
+                    if comp_seq[i] in i_counts[i]:
+                        i_list.append(i_counts[i][comp_seq[i]] / seq_count)
+                    else:
+                        i_list.append(0)
+            seq_count = 0
+            i_counts = [dict() for _ in range(seq_end - seq_start)]
+
+            # Add structural alignments below sequence alignment
+            if pdb_list:
                 for i in range(0, len(pdb_list)):
                     struct = pdb_list[i]
                     output.write('STRUCTURE [' + struct[0].upper() + ']:' + ' ' * (seq_start - 17))
@@ -226,35 +240,40 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
                          str(fails_l[species][1]) + '%)\n')
     output.write('\n')
 
+    # Create color projection scripts
+
+    # clustalw score color scale
     scheme = color_schemes[color_scheme]
-
     if len(identity_list) > 0:
-        pymol_output.write('color ' + scheme[2] + ', resi ' + str(identity_list[0]))
-        if len(identity_list) > 1:
-            for i in identity_list[1:]:
-                pymol_output.write('+' + str(i))
-        pymol_output.write('\n')
-
+        resi_string = '+'.join(str(r) for r in identity_list)
+        pymol_output.write(f'color {scheme[2]}, resi {resi_string}\n')
     if len(two_dot_list) > 0:
-        pymol_output.write('color ' + scheme[1] + ', resi ' + str(two_dot_list[0]))
-        if len(two_dot_list) > 1:
-            for i in two_dot_list[1:]:
-                pymol_output.write('+' + str(i))
-        pymol_output.write('\n')
-
+        resi_string = '+'.join(str(r) for r in two_dot_list)
+        pymol_output.write(f'color {scheme[1]}, resi {resi_string}\n')
     if len(one_dot_list) > 0:
-        pymol_output.write('color ' + scheme[0] + ', resi ' + str(one_dot_list[0]))
-        if len(one_dot_list) > 1:
-            for i in one_dot_list[1:]:
-                pymol_output.write('+' + str(i))
-        pymol_output.write('\n')
-
+        resi_string = '+'.join(str(r) for r in one_dot_list)
+        pymol_output.write(f'color {scheme[0]}, resi {resi_string}\n')
     if len(no_dot_list) > 0:
-        pymol_output.write('color white, resi ' + str(no_dot_list[0]))
-        if len(no_dot_list) > 1:
-            for i in no_dot_list[1:]:
-                pymol_output.write('+' + str(i))
-        pymol_output.write('\n')
+        resi_string = '+'.join(str(r) for r in no_dot_list)
+        pymol_output.write(f'color white, resi {resi_string}\n')
+    pymol_output.close()
+
+    # % identity color scale
+    color_dict = dict()
+    for i in range(len(i_list)):
+        # 0xffff00 = 16776960
+        add_int = int(255 * (1-i_list[i]))
+        color_hex = '0x' + hex(add_int)[2:] * 2 + 'ff'
+        if color_hex not in color_dict:
+            color_dict[color_hex] = [str(i+1)]
+        else:
+            color_dict[color_hex].append(str(i + 1))
+
+    for color in color_dict:
+        residues = color_dict[color]
+        resi_string = '+'.join(str(r) for r in residues)
+        pymol_output_i.write(f'color {color}, resi {resi_string}\n')
+    pymol_output_i.close()
 
     return filename
 
