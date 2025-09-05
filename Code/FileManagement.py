@@ -1,3 +1,5 @@
+import math
+
 from Bio.Blast.Applications import NcbimakeblastdbCommandline
 from Bio.PDB import PDBList
 from datetime import datetime, date
@@ -9,12 +11,14 @@ import requests
 base_path = '.'
 
 color_schemes = {
-    'Blues': ['lightblue', 'marine', 'density'],
+    'Blues': ['0xbfbfff', '0x0080ff', '0x191999'],
     'Reds': ['0xf7bcbc', '0xff5252', '0x8a1313'],
-    'Greens': ['palegreen', '0x51a657', '0x0a4a0e'],
-    'Grays': ['gray70', 'gray40', 'black'],
-    'High contrast': ['cyan', 'yellow', 'red']
+    'Greens': ['0xa6e6a6', '0x51a657', '0x0a4a0e'],
+    'Grays': ['0xb3b3b3', '0x666666', '0x010101'],
+    'High contrast': ['0x00ffff', '0xffff00', '0xff0000']
 }
+
+score_bars = [' ', ' ', '▁', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█']
 
 
 def update_database() -> None:
@@ -100,15 +104,8 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
         now = datetime.now()
         current_time = now.strftime("%H:%M")
         filename = 'Run_' + current_date + '_' + current_time
-
         if not exists(base_path+'/output/' + filename):
             os.makedirs(base_path+'/output/' + filename)
-
-        output_name = current_date + '_' + current_time + '_Alignment.txt'
-        pymol_output_name = current_date + '_' + current_time + '_Pymol.txt'
-        output = open(base_path+'/output/' + filename + '/' + output_name, 'w')
-        pymol_output = open(base_path+'/output/' + filename + '/' + pymol_output_name, 'w')
-        pymol_output_i = open(base_path + '/output/' + filename + '/' + filename + '_pymol_identity.txt', 'w')
     else:
         if exists(base_path+'/output/' + filename):
             ext = 1
@@ -118,11 +115,9 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
 
         os.makedirs(base_path+'/output/' + filename)
 
-        output_name = filename + '_Alignment.txt'
-        pymol_output_name = filename + '_Pymol.txt'
-        output = open(base_path+'/output/' + filename + '/' + output_name, 'w')
-        pymol_output = open(base_path+'/output/' + filename + '/' + pymol_output_name, 'w')
-        pymol_output_i = open(base_path + '/output/' + filename + '/' + filename + '_pymol_identity.txt', 'w')
+    output = open(base_path + '/output/' + filename + '/' + filename + '_Alignment.txt', 'w')
+    pymol_output = open(base_path + '/output/' + filename + '/' + filename + '_Pymol.txt', 'w')
+    pymol_output_i = open(base_path + '/output/' + filename + '/' + filename + '_Pymol_identity.txt', 'w')
 
     with open(alignment_file, 'r') as file:
         alignment = file.readlines()
@@ -160,6 +155,8 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
     a_struc_index = 0
     comp_seq = ''
     i_counts = [dict() for _ in range(seq_end - seq_start)]
+    i_seq = []
+    i_index = 0
     for line in alignment[3:]:
         if 'QUERY_SEQUENCE' in line:
             comp_seq = line[seq_start:seq_end]
@@ -190,8 +187,12 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
                     cons_index += 1
 
                     if comp_seq[i] in i_counts[i]:
-                        i_list.append(i_counts[i][comp_seq[i]] / seq_count)
+                        score = i_counts[i][comp_seq[i]] / seq_count
+                        i_list.append(score)
+                        digit = math.floor(score * 10)
+                        i_seq .append(digit)
                     else:
+                        i_seq.append(0)
                         i_list.append(0)
             seq_count = 0
             i_counts = [dict() for _ in range(seq_end - seq_start)]
@@ -218,6 +219,17 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
                         output.write(alpha_struc_str[a_struc_index])
                         a_struc_index += 1
                 output.write('\n')
+
+            output.write('% sequences matching query:' + ' ' * (seq_start - 27))
+            for char in comp_seq:
+                if char == '-':
+                    output.write(' ')
+                elif i_index < len(i_seq):
+                    output.write(score_bars[i_seq[i_index]])
+                    i_index += 1
+            output.write('\n')
+
+            # output.write('CLUSTALW alignment scores:' + line[26:])
         output.write(line)
     output.write('\n')
 
@@ -261,9 +273,7 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
     # % identity color scale
     color_dict = dict()
     for i in range(len(i_list)):
-        # 0xffff00 = 16776960
-        add_int = int(255 * (1-i_list[i]))
-        color_hex = '0x' + hex(add_int)[2:] * 2 + 'ff'
+        color_hex = _hex_lerp('0xffffff', scheme[2], i_list[i])
         if color_hex not in color_dict:
             color_dict[color_hex] = [str(i+1)]
         else:
@@ -277,3 +287,30 @@ def assemble_output_file(alignment_file: str, low_threshold: int, high_threshold
 
     return filename
 
+
+def _hex_to_rgb(hexcode: str) -> (int, int, int):
+    """Converts a hex code to RGB tuple"""
+    hex_code = hexcode[2:]
+    return tuple(int(hex_code[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _hex_lerp(hex1: str, hex2: str, t: float) -> str:
+    """
+    Linearly interpolates between 2 hex colors. Returns the interpolated hex color.
+
+    Parameters:
+        hex1: str, first hex code
+        hex2: str, second hex code
+        t: float, interpolation factor
+
+    Returns:
+        str, interpolated hex code
+    """
+    rgb1 = _hex_to_rgb(hex1)
+    rgb2 = _hex_to_rgb(hex2)
+
+    r = round(rgb1[0] * (1 - t) + rgb2[0] * t)
+    g = round(rgb1[1] * (1 - t) + rgb2[1] * t)
+    b = round(rgb1[2] * (1 - t) + rgb2[2] * t)
+
+    return f'0x{r:02x}{g:02x}{b:02x}'
