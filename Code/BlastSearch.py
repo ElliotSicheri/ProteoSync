@@ -50,7 +50,7 @@ def blast_search(seq_file: str, i_threshold_low: int, i_threshold_high: int, len
     for path in path_list:
         blast = NcbiblastpCommandline(cmd='blastp', query=seq_file, db=path + '/' + os.path.basename(path) + '.fasta',
                                       out=base_path+'/temp_files/raw_data.txt', outfmt=0,
-                                      num_threads=8, num_alignments=30, num_descriptions=30)
+                                      num_threads=8, num_alignments=5, num_descriptions=5)
         blast()
         hits_list = _return_first_hits(num_hits)
         species = os.path.basename(path)
