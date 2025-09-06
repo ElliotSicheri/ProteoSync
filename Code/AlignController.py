@@ -54,7 +54,7 @@ class AlignController:
         return 0
 
     def run_blast(self, sequence: str, tax_tree: TaxFileManager.TaxTreeNode, low_threshold: int, high_threshold: int,
-                  len_threshold: int) -> int:
+                  len_threshold: int, num_hits: int = 1) -> int:
         """
         Runs a blast search with the given sequence against all species databases selected in the given tax tree.
         Stores the results in this object.
@@ -65,6 +65,7 @@ class AlignController:
             low_threshold: int, lower % identity threshold for filtering BLAST results
             high_threshold: int, upper % identity threshold for filtering BLAST results
             len_threshold: int, % length threshold for filtering BLAST results
+            num_hits: int, max number of sequences to include from each species.
 
         Returns:
             -   0 if function was successful
@@ -86,7 +87,7 @@ class AlignController:
         # Runs local BLAST searches on species databases
         try:
             successes, fails_i, fails_l = BlastSearch.blast_search(base_path+'/temp_files/seq.txt', low_threshold,
-                                                                   high_threshold, len_threshold, path_list)
+                                                                   high_threshold, len_threshold, path_list, num_hits)
         except Exception as error:
             print("Error running BLAST searches:\n")
             traceback.print_exc()

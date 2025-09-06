@@ -48,8 +48,8 @@ class CheckboxTree:
             child.checkbox.configure(state="disabled")
 
 
-# def _validate_numeric_input(text):
-#     return text.isdecimal() or text == ""  # Allow empty string for backspace/delete
+def _validate_numeric_input(text):
+    return text.isdecimal() or text == ""  # Allow empty string for backspace/delete
 
 
 class AlignGUI:
@@ -59,7 +59,7 @@ class AlignGUI:
 
         window = tkinter.Tk()
         window.title('ProteoSync')
-        window.geometry('730x570')
+        window.geometry('730x605')
         window['bg'] = '#363535'
         window.resizable(width=False, height=False)
         self.window = window
@@ -135,26 +135,35 @@ class AlignGUI:
                                     highlightbackground='#363535', command=self.update_database)
         pdb_button.place(x=510, y=240)
 
+        num_seqs_label = tkinter.Label(text='Max # sequences per species:', bg='#363535', fg='white')
+        num_seqs_label.place(x=10, y=365)
+        vcmd = window.register(_validate_numeric_input)
+        num_seqs_entry = tkinter.Entry(window, fg='black', bg='white', width=5, highlightbackground='#363535',
+                                       validate="key", validatecommand=(vcmd, '%P'))
+        self.num_seqs_entry = num_seqs_entry
+        num_seqs_entry.place(x=200, y=365)
+        num_seqs_entry.insert(0, "1")
+
         start_button = tkinter.Button(text='Start!', width=8, height=2, bg='#616161', fg='black',
                                       highlightbackground='#363535', command=self.run_program)
-        start_button.place(x=10, y=365)
+        start_button.place(x=10, y=400)
 
         tax_settings_button = tkinter.Button(text='Taxonomy settings', width=12, height=2, bg='#616161', fg='black',
                                              highlightbackground='#363535', command=self.open_tax_window)
-        tax_settings_button.place(x=130, y=365)
+        tax_settings_button.place(x=130, y=400)
 
         color_settings_button = tkinter.Button(text='Color settings', width=10, height=2, bg='#616161', fg='black',
                                                highlightbackground='#363535', command=self.open_color_window)
-        color_settings_button.place(x=285, y=365)
+        color_settings_button.place(x=285, y=400)
 
         # projection_button = tkinter.Button(text='Custom projection', width=11, height=2, bg='#616161', fg='black',
         #                                    highlightbackground='#363535', command=self.open_custom_projection_window)
         # projection_button.place(x=420, y=365)
 
         output_log_label = tkinter.Label(text='Output Log:', bg='#363535', fg='white')
-        output_log_label.place(x=10, y=406)
+        output_log_label.place(x=10, y=441)
         output_field = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
-        output_field.place(x=10, y=425)
+        output_field.place(x=10, y=460)
         self.output_field = output_field
 
         self.open_tax_window()
@@ -294,6 +303,11 @@ class AlignGUI:
         high_threshold = self.get_high_threshold()
         len_threshold = self.get_len_threshold()
         color_scheme = self.get_color_scheme()
+        hit_num = self.get_num_seqs()
+        if hit_num:
+            num_hits = int(self.get_num_seqs())
+        else:
+            num_hits = 1
 
         uni_lst = []
         if uni_str != '\n':
@@ -326,16 +340,18 @@ class AlignGUI:
                 print("Starting run " + run_name)
 
             if uni_str != '\n':
-                self._run_program(seq_lst[i], uni_lst[i], low_threshold, high_threshold, len_threshold, run_name, color_scheme)
+                self._run_program(seq_lst[i], uni_lst[i], low_threshold, high_threshold, len_threshold, run_name,
+                                  color_scheme, num_hits)
             else:
-                self._run_program(seq_lst[i], '', low_threshold, high_threshold, len_threshold, run_name, color_scheme)
+                self._run_program(seq_lst[i], '', low_threshold, high_threshold, len_threshold, run_name, color_scheme,
+                                  num_hits)
 
-    def _run_program(self, seq_str: str, uni_str: str, low_threshold: int, high_threshold: int, len_threshold: int, run_name: str,
-                     color_scheme: str) -> None:
+    def _run_program(self, seq_str: str, uni_str: str, low_threshold: int, high_threshold: int, len_threshold: int,
+                     run_name: str, color_scheme: str, num_hits: int = 1) -> None:
         self.aln_cont.clear()
 
         self.printout("Running BLAST searches...\n")
-        error = self.aln_cont.run_blast(seq_str, self.file_tree, low_threshold, high_threshold, len_threshold)
+        error = self.aln_cont.run_blast(seq_str, self.file_tree, low_threshold, high_threshold, len_threshold, num_hits)
         if error == 1:
             self.printout("1 or fewer sufficiently similar sequences were found, no alignment could be made.\n")
             return
@@ -445,14 +461,18 @@ class AlignGUI:
     def get_color_scheme(self) -> str:
         return self.color.get()
 
-    def get_proj_file(self):
-        return self.proj_file.get()
-
-    def get_proj_seq(self):
-        return self.proj_seq_entry.get()
+    # def get_proj_file(self):
+    #     return self.proj_file.get()
+    #
+    # def get_proj_seq(self):
+    #     return self.proj_seq_entry.get()
 
     def get_num_seqs(self):
-        return int(self.num_lines_entry.get())
+        num_seqs = self.num_seqs_entry.get()
+        if num_seqs:
+            return int(num_seqs)
+        else:
+            return 1  # Use 1 as default for empty box
 
     def printout(self, message: str):
         """Outputs a message to the user."""
