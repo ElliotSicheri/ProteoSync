@@ -5,7 +5,6 @@ ProteoSync GUI classes.
 import Code.AlignController as AlignController
 import Code.TaxFileManager as TaxFileManager
 import tkinter
-from tkinter import filedialog as fd
 from datetime import date
 
 base_path = '.'
@@ -48,10 +47,6 @@ class CheckboxTree:
             child.checkbox.configure(state="disabled")
 
 
-def _validate_numeric_input(text):
-    return text.isdecimal() or text == ""  # Allow empty string for backspace/delete
-
-
 class AlignGUI:
     def __init__(self, aln_cont: AlignController):
         self.aln_cont = aln_cont
@@ -59,19 +54,15 @@ class AlignGUI:
 
         window = tkinter.Tk()
         window.title('ProteoSync')
-        window.geometry('730x605')
+        window.geometry('730x560')
         window['bg'] = '#363535'
         window.resizable(width=False, height=False)
         self.window = window
 
-        self.tax_window = None
+        self.window2 = None
         self.color_window = None
-        # self.proj_window = None
         self.file_tree = None
-        # self.proj_seq_entry = None
-        # self.num_lines_entry = None
-        #
-        # self.proj_file = tkinter.StringVar(value='Select file...')
+
         self.color = tkinter.StringVar(value='Blues')
 
         seq_label = tkinter.Label(text='Protein sequences:', bg='#363535', fg='white')
@@ -132,38 +123,30 @@ class AlignGUI:
         update_label_2.place(x=470, y=210)
 
         pdb_button = tkinter.Button(text='Update PDB database', width=15, height=2, bg='#616161', fg='black',
-                                    highlightbackground='#363535', command=self.update_database)
+                                highlightbackground='#363535', command=self.update_database)
         pdb_button.place(x=510, y=240)
 
-        num_seqs_label = tkinter.Label(text='Max # sequences per species:', bg='#363535', fg='white')
-        num_seqs_label.place(x=10, y=365)
-        vcmd = window.register(_validate_numeric_input)
-        num_seqs_entry = tkinter.Entry(window, fg='black', bg='white', width=5, highlightbackground='#363535',
-                                       validate="key", validatecommand=(vcmd, '%P'))
-        self.num_seqs_entry = num_seqs_entry
-        num_seqs_entry.place(x=200, y=365)
-        num_seqs_entry.insert(0, "1")
+        # num_seqs_label = tkinter.Label(text='Max # sequences per species:', bg='#363535', fg='white')
+        # num_seqs_label.place(x=10, y=365)
+        # vcmd = window.register(_validate_numeric_input)
+        # num_seqs_entry = tkinter.Entry(window, fg='black', bg='white', width=5, highlightbackground='#363535',
+        #                                validate="key", validatecommand=(vcmd, '%P'))
+        # self.num_seqs_entry = num_seqs_entry
+        # num_seqs_entry.place(x=200, y=365)
+        # num_seqs_entry.insert(0, "1")
 
         start_button = tkinter.Button(text='Start!', width=8, height=2, bg='#616161', fg='black',
                                       highlightbackground='#363535', command=self.run_program)
-        start_button.place(x=10, y=400)
+        start_button.place(x=10, y=355)
 
-        tax_settings_button = tkinter.Button(text='Taxonomy settings', width=12, height=2, bg='#616161', fg='black',
-                                             highlightbackground='#363535', command=self.open_tax_window)
-        tax_settings_button.place(x=130, y=400)
-
-        color_settings_button = tkinter.Button(text='Color settings', width=10, height=2, bg='#616161', fg='black',
-                                               highlightbackground='#363535', command=self.open_color_window)
-        color_settings_button.place(x=285, y=400)
-
-        # projection_button = tkinter.Button(text='Custom projection', width=11, height=2, bg='#616161', fg='black',
-        #                                    highlightbackground='#363535', command=self.open_custom_projection_window)
-        # projection_button.place(x=420, y=365)
+        settings_button = tkinter.Button(text='Color settings', width=10, height=2, bg='#616161', fg='black',
+                                         highlightbackground='#363535', command=self.open_color_window)
+        settings_button.place(x=130, y=355)
 
         output_log_label = tkinter.Label(text='Output Log:', bg='#363535', fg='white')
-        output_log_label.place(x=10, y=441)
+        output_log_label.place(x=10, y=396)
         output_field = tkinter.Text(fg='black', bg='white', width=100, height=10, highlightbackground='#363535')
-        output_field.place(x=10, y=460)
+        output_field.place(x=10, y=415)
         self.output_field = output_field
 
         self.open_tax_window()
@@ -171,11 +154,6 @@ class AlignGUI:
         window.mainloop()
 
     def open_tax_window(self):
-        if self.tax_window is not None and self.tax_window.winfo_exists():
-            self.tax_window.lift()
-            self.tax_window.focus_force()
-            return
-
         self.file_tree = TaxFileManager.make_tax_tree(base_path + '/databases/species')
         height = self.file_tree.get_size()
 
@@ -183,7 +161,7 @@ class AlignGUI:
         tax_window['bg'] = '#363535'
         tax_window.geometry('328x700')
         tax_window.title('Taxonomy settings')
-        self.tax_window = tax_window
+        self.window2 = tax_window
 
         button_frame = tkinter.Frame(tax_window)
 
@@ -205,11 +183,12 @@ class AlignGUI:
                                 highlightthickness=0)
         canvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
         scrollbar.config(command=canvas.yview)
-        # self.canvas = canvas
+        self.canvas = canvas
 
         frame = tkinter.Frame(canvas, bg='#363535', width=500, height=height * 20 + 10, borderwidth=0,
                               highlightthickness=0)
         self.frame = frame
+
         frame.pack(side=tkinter.TOP)
 
         height, width, root = self.place_checkboxes(self.file_tree, 5, 5)
@@ -245,53 +224,6 @@ class AlignGUI:
                 canvas.create_rectangle(0, 0, 15, 15, fill=color, outline=color)
                 canvas.pack(side='left', padx=2)
 
-    # def open_custom_projection_window(self):
-    #     if self.proj_window is not None and self.proj_window.winfo_exists():
-    #         self.proj_window.lift()
-    #         self.proj_window.focus_force()
-    #         return
-    #
-    #     proj_window = tkinter.Toplevel(self.window)
-    #     proj_window['bg'] = '#363535'
-    #     proj_window.geometry('500x200')
-    #     proj_window.title('Custom alignment projection')
-    #     self.proj_window = proj_window
-    #
-    #     frame = tkinter.Frame(proj_window, bg='#363535')
-    #     frame.pack(anchor='w', pady=2, padx=5)
-    #     select_button = tkinter.Button(frame, text='Select file', width=7, height=1, bg='#616161', fg='black',
-    #                                    highlightbackground='#363535', command=self._select_proj_file)
-    #     select_button.pack(side=tkinter.LEFT)
-    #     file_label = tkinter.Label(frame, textvariable=self.proj_file)
-    #     file_label.pack(side=tkinter.LEFT)
-    #
-    #     frame2 = tkinter.Frame(proj_window, bg='#363535')
-    #     frame2.pack(anchor='w', pady=2, padx=5)
-    #     seq_label = tkinter.Label(frame2, text='Sequence to project to: ')
-    #     seq_label.pack(side=tkinter.LEFT)
-    #     proj_seq_entry = tkinter.Entry(frame2, fg='black', bg='white', width=33, highlightbackground='#363535')
-    #     self.proj_seq_entry = proj_seq_entry
-    #     proj_seq_entry.pack(side=tkinter.LEFT)
-    #
-    #     frame3 = tkinter.Frame(proj_window, bg='#363535')
-    #     frame3.pack(anchor='w', pady=2, padx=5)
-    #     num_label = tkinter.Label(frame3, text='Number of lines in projection: ')
-    #     num_label.pack(side=tkinter.LEFT)
-    #     vcmd = frame3.register(_validate_numeric_input)
-    #     num_lines_entry = tkinter.Entry(frame3, fg='black', bg='white', width=5, highlightbackground='#363535',
-    #                                     validate="key", validatecommand=(vcmd, '%P'))
-    #     self.num_lines_entry = num_lines_entry
-    #     num_lines_entry.pack(side=tkinter.LEFT)
-    #
-    #     frame4 = tkinter.Frame(proj_window, bg='#363535')
-    #     frame4.pack(anchor='w', pady=2, padx=5)
-    #     run_button = tkinter.Button(frame4, text='Create projection', width=10, height=1, bg='#616161', fg='black',
-    #                                    highlightbackground='#363535', command=self.do_custom_projection)
-    #     run_button.pack(side=tkinter.LEFT)
-    #
-    # def _select_proj_file(self):
-    #     self.proj_file.set(fd.askopenfilename())
-
     def run_program(self) -> None:
         """Collects user input from window fields and passes it to the controller."""
         self.line_count = 1.0
@@ -303,11 +235,11 @@ class AlignGUI:
         high_threshold = self.get_high_threshold()
         len_threshold = self.get_len_threshold()
         color_scheme = self.get_color_scheme()
-        hit_num = self.get_num_seqs()
-        if hit_num:
-            num_hits = int(self.get_num_seqs())
-        else:
-            num_hits = 1
+        # hit_num = self.get_num_seqs()
+        # if hit_num:
+        #     num_hits = int(self.get_num_seqs())
+        # else:
+        #     num_hits = 1
 
         uni_lst = []
         if uni_str != '\n':
@@ -341,10 +273,9 @@ class AlignGUI:
 
             if uni_str != '\n':
                 self._run_program(seq_lst[i], uni_lst[i], low_threshold, high_threshold, len_threshold, run_name,
-                                  color_scheme, num_hits)
+                                  color_scheme)
             else:
-                self._run_program(seq_lst[i], '', low_threshold, high_threshold, len_threshold, run_name, color_scheme,
-                                  num_hits)
+                self._run_program(seq_lst[i], '', low_threshold, high_threshold, len_threshold, run_name, color_scheme)
 
     def _run_program(self, seq_str: str, uni_str: str, low_threshold: int, high_threshold: int, len_threshold: int,
                      run_name: str, color_scheme: str, num_hits: int = 1) -> None:
@@ -386,14 +317,6 @@ class AlignGUI:
             self.printout('Results recorded in ' + output_name + '\n')
         else:
             self.printout('There has been an error, output could not be parsed. See console window for more details.\n')
-
-    # def do_custom_projection(self):
-    #     filename = self.get_proj_file()
-    #     output_file = base_path + '/output' + filename[filename.rindex('/'):filename.rindex('.')] + '_projection.txt'
-    #     proj_seq = self.get_proj_file()
-    #     color = self.get_color_scheme()
-    #
-    #     AlignController.do_custom_projection(filename, output_file, proj_seq, color)
 
     def place_checkboxes(self, file_node: TaxFileManager.TaxTreeNode, height: int, indent: int) \
             -> (int, int, CheckboxTree):
@@ -460,19 +383,6 @@ class AlignGUI:
 
     def get_color_scheme(self) -> str:
         return self.color.get()
-
-    # def get_proj_file(self):
-    #     return self.proj_file.get()
-    #
-    # def get_proj_seq(self):
-    #     return self.proj_seq_entry.get()
-
-    def get_num_seqs(self):
-        num_seqs = self.num_seqs_entry.get()
-        if num_seqs:
-            return int(num_seqs)
-        else:
-            return 1  # Use 1 as default for empty box
 
     def printout(self, message: str):
         """Outputs a message to the user."""

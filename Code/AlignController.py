@@ -202,8 +202,7 @@ class AlignController:
         self.successes = {}
         self.fails_i = {}
         self.fails_l = {}
-        self.low_threshold = 0
-        self.high_threshold = 100
+        self.i_threshold = 0
         self.len_threshold = 0
         self.alignment_file = ''
         self.struct = ''
