@@ -89,3 +89,14 @@ To use the file, first open a PDB model of the protein in PyMOL. An AlphaFold st
 Then, in the command bar, type @, then drag the output file into the command bar. This should fill in the file path to the command file. Then press enter, and the commands will execute to colour the model.
 
 The darker the colour, the more conserved that residue is. White means completely unconserved, and the darkest blue means completely identical.
+
+
+-----------------------------
+~ QUESTIONS AND BUG REPORTS ~
+-----------------------------
+
+If you're having any issue using or installing the program, or if you've encountered a bug you'd like to report, please contact me at:
+
+elliot.sicheri@gmail.com
+
+and I'll get back to you as soon as I'm able!
