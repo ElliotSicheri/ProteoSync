@@ -9,7 +9,11 @@ STEP 1: Downloading the database files with git-lfs
 The database files are hosted via git-lfs, and must be fetched separately after cloning the main repo.
 
 To get the dataset files, first install git-lfs. They have several official installers on their website.
-Once you have cloned the git repository to your computer and git-lfs is properly installed, in the terminal, cd into the cloned repository, then run git lfs pull. This will download all of the necessary dataset files.
+Once you have cloned the git repository to your computer and git-lfs is properly installed, in the terminal, cd into the cloned repository, then run:
+
+git lfs pull
+
+This will download all of the necessary dataset files.
 
 STEP 2: Installing required python packages
 
@@ -34,7 +38,7 @@ The program calls on a few external programs, such as BLAST and clustalw, which 
 
 To run the program, run the main.py file included in the package.
 
-Understanding the Menu
+-- Understanding the menu --
 
 “Protein sequence” box: This is where you enter the sequence you want to search. To search sequences in bulk, separate sequences with whitespace (space or newline)
 
@@ -42,7 +46,7 @@ Understanding the Menu
 
 “Search PDB database?” checkbox: If you don’t want the program to add PDB structures to the final alignment, you can uncheck this box. PDB search is enabled by default.
 
-“% Identity threshold” slider: You can adjust this slider to set the threshold for which species are included in the final result based on their similarity to the query. Any species whose closest sequence has % identity to the query that is lower than the threshold are excluded from the final alignment.
+“Upper/Lower % Identity threshold” sliders: You can adjust these sliders to set the upper and lower thresholds for which species are included in the final result based on their similarity to the query. Any species whose closest sequence has % identity to the query that is lower than the lower threshold or higher than the upper threshold are excluded from the final alignment.
 
 “% Length variability” slider: You can adjust this slider to set the threshold for which sequences are filtered based on length difference to the query. The threshold applies to % length difference in both directions; e.g. a length threshold of 40% will filter out sequences that are less than 60% or greater than 140% of the length of the query.
 
@@ -52,10 +56,10 @@ Understanding the Menu
 
 “Taxonomy Settings” menu: This window allows you to handpick which species you want included in your search. All species in the database are organized by taxonomy, with checkboxes allowing you to enable or disable species or taxonomic groups. If you want to add a new species, see the database instructions document in the instructions folder.
 
-“Color Settings” menu: This window allows you to select a color scheme for the 3D PyMOL projection.
+“Color Settings” menu: This window allows you to select a color scheme for the 3D PyMOL projections.
 
 
-Interpreting Your Results
+-- Interpreting your results --
 
 Each output file contains a sequence alignment of all sequences found within the identity and length thresholds set by the user.
 
@@ -68,27 +72,42 @@ The structure is represented by a string of characters as follows:
 	•	‘-‘ - this residue is unstructured
 	•	‘X’ - this residue is not modelled in this PDB structure
 
-Below the PDB structures, the structure of the AlphaFold prediction for the protein is overlaid onto the sequence alignment. It is represented by a string of characters, going by the same legend as the PDB structures. This section only appears if a UniProt ID for the query sequence is entered.
+If a UniProt ID was provided, then below the PDB structures, the structure of the AlphaFold prediction for the protein is overlaid onto the sequence alignment. It is represented by a string of characters, going by the same legend as the PDB structures.
 
-Below the AlphaFold structure are clustalw conservation scores representing conservation across the aligned sequences.
+Below the structure lines are 2 sets of scores representing the similarity of each residue across all of the aligned species.
+
+First is a set of scores based on the % of aligned sequences that perfectly match the query sequence. This score is represented as a string of Unicode characters, as follows:
+    - ‘ ‘ - 0–19 % of sequences match the query at that residue
+    - ‘-’ - 20–39 % of sequences match the query at that residue
+    - ‘━’ - 40–49 % of sequences match the query at that residue
+    - ‘▂’ - 50–59 % of sequences match the query at that residue
+    - ‘▃’ - 60–69 % of sequences match the query at that residue
+    - ‘▄’ - 70–79 % of sequences match the query at that residue
+    - ‘▅’ - 80–89 % of sequences match the query at that residue
+    - ‘▄’ - 90–99 % of sequences match the query at that residue
+    - ‘▆’ - 100 % of sequences match the query at that residue
+
+Below that are the clustalw conservation scores representing conservation across the aligned sequences.
 clustalw conservation scores are as follows:
 	•	‘*’ - the residue is identical across all aligned sequences
 	•	‘:’ - conserved substitutions exist between aligned species
 	•	‘.’ - semi-conserved substitutions exist between aligned species
 	•	‘ ‘ - this residue is not conserved
 
-At the bottom of the alignment, accession codes for all aligned species and a list of all species outside the user-set thresholds are listed.
+At the very bottom of the file, accession codes for all aligned species and a list of all species outside the user-set thresholds are listed.
 
 
-Using the PyMOL output file
+-- Using the PyMOL projection scripts --
 
-Along with each alignment, the program creates a file labelled with ‘_pymol’ in the file name. This is a PyMOL command file that will project the conservation scores from the corresponding alignment onto a 3D structure in PyMOL.
+Along with each alignment, the program creates two files labelled with ‘_pymol’ in the file name. These are a PyMOL command files that will project the conservation scores from the corresponding alignment onto a 3D structure in PyMOL.
 
-To use the file, first open a PDB model of the protein in PyMOL. An AlphaFold structure prediction or a full-sequence solved structure from the PDB will work. Be warned that any added or removed residues in the .pdb file can offset the color alignment. Thus for solved structure files from the PDB, it is good to ensure that there are no unmodelled sections or extraneous tags, and that the sequence starts counting at 1.
+One file is generated for each of the two scoring schemes from the alignment. The file labelled '_pymol' projects the clustalw scores, and the one labelled '_pymol_identity' projects the %-similarity-based scores.
+
+To use the files, first open a PDB model of the protein in PyMOL. An AlphaFold structure prediction or a full-sequence solved structure from the PDB will work. Be warned that any added or removed residues in the .pdb file can offset the color alignment. Thus for solved structure files from the PDB, it is good to ensure that there are no unmodelled sections or extraneous tags, and that the sequence starts counting at 1.
 
 Then, in the command bar, type @, then drag the output file into the command bar. This should fill in the file path to the command file. Then press enter, and the commands will execute to colour the model.
 
-The darker the colour, the more conserved that residue is. White means completely unconserved, and the darkest blue means completely identical.
+The darker the colour, the more conserved that residue is. White means completely unconserved, and the darkest color means completely identical.
 
 
 -----------------------------
