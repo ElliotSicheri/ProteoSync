@@ -4,14 +4,21 @@ ProteoSync is an automated sequence alignment tool that allows the easy creation
 ~ SETUP INSTRUCTIONS ~
 ----------------------
 
-STEP 1: Installing required python packages
+STEP 1: Downloading the database files with git-lfs
+
+The database files are hosted via git-lfs, and must be fetched separately after cloning the main repo.
+
+To get the dataset files, first install git-lfs. They have several official installers on their website.
+Once you have cloned the git repository to your computer and git-lfs is properly installed, in the terminal, cd into the cloned repository, then run git lfs pull. This will download all of the necessary dataset files.
+
+STEP 2: Installing required python packages
 
 The program utilizes several python packages that must be installed.
 
 This can be done using the included requirements file. In the console, cd to the ProteoSync directory and run:
 	pip install -r requirements.txt
 
-STEP 2: Installing external executables with Anaconda
+STEP 3: Installing external executables with Anaconda
 
 The program calls on a few external programs, such as BLAST and clustalw, which need to be installed separately. This should be done using a free program called Conda.
 
