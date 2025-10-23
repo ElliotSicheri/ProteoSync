@@ -289,7 +289,7 @@ def alpha_struc_search(seq_file: str, uniprot_id: str) -> str:
 
     if not exists(base_path+'/downloads/AF_structures/AF-' + uniprot_id + '.cif'):
         # Downloads the alphafold file
-        link_pattern = 'http://alphafold.ebi.ac.uk/files/AF-{}-F1-model_v3.cif'
+        link_pattern = 'http://alphafold.ebi.ac.uk/files/AF-{}-F1-model_v6.cif'
         url = link_pattern.format(uniprot_id)
         response = requests.get(url)
 

@@ -445,14 +445,14 @@ class AlignGUI:
     def get_color_scheme(self) -> str:
         return self.color.get()
 
-    def get_proj_file(self):
-        return self.proj_file.get()
-
-    def get_proj_seq(self):
-        return self.proj_seq_entry.get()
-
-    def get_num_seqs(self):
-        return int(self.num_lines_entry.get())
+    # def get_proj_file(self):
+    #     return self.proj_file.get()
+    #
+    # def get_proj_seq(self):
+    #     return self.proj_seq_entry.get()
+    #
+    # def get_num_seqs(self):
+    #     return int(self.num_lines_entry.get())
 
     def printout(self, message: str):
         """Outputs a message to the user."""
