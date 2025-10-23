@@ -74,7 +74,7 @@ def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int)
     for line in result_lines:
         if line != '' and line[0] == '>':
             # If the line contains the name of a BLAST hit, pull the pdb code from it
-            code = line[1:6].strip()
+            code = line[1:6].strip().replace('_', '')
             chain = line[6:8].strip().replace('_', '')
         elif line.find('Identities') != -1:
             i = line.find('%')
