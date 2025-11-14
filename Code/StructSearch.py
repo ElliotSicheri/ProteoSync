@@ -13,8 +13,6 @@ import os
 
 base_path = '.'
 
-os.environ['LIBCIFPP_DATA_DIR'] = os.path.expanduser('~/anaconda3/share/libcifpp')
-
 res_dict = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K', 'ILE': 'I', 'PRO': 'P', 'THR': 'T',
             'PHE': 'F', 'ASN': 'N', 'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W', 'ALA': 'A',
             'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M', 'MSE': 'M'}
@@ -22,7 +20,7 @@ res_dict = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K', 'ILE': '
 dssp_dict = {'H': 'A', 'B': 'B', 'E': 'B', 'I': '-', 'S': '-', 'G': '-', 'T': '-', 'C': '-', '-': '-', 'P': '-'}
 
 
-def structure_search(seq_file: str, rec_count: int = 0, search_range: (int, int) = (0, 0)) -> list[(str, str)]:
+def structure_search(seq_file: str, rec_count: int = 0, search_range: tuple[int, int] = (0, 0)) -> list[(str, str)]:
     """Runs a BLAST search of the local BLAST-formatted PDB sequence database for sequences that are closest to the
     given sequence. Downloads the corresponding .pdb files from the PDB, and extracts the secondary structure for the
     hit sequences. Aligns the secondary structure to the query sequence and returns as a string.
