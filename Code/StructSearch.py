@@ -9,7 +9,6 @@ from Bio.PDB import PDBList, DSSP, PDBParser, MMCIFParser
 from os.path import exists
 from pathlib import Path
 import requests
-import os
 
 base_path = '.'
 

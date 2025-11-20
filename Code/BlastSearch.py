@@ -45,6 +45,8 @@ def blast_search(seq_file: str, i_threshold_low: int, i_threshold_high: int, len
     formatted_results += '> QUERY_SEQUENCE \n'
     formatted_results += query_seq + '\n'
 
+    print(path_list)
+
     for path in path_list:
         blast = NcbiblastpCommandline(cmd='blastp', query=seq_file, db=path + '/' + os.path.basename(path) + '.fasta',
                                       out=base_path+'/temp_files/raw_data.txt', outfmt=0,
